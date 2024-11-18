@@ -22,3 +22,9 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+
+
+class Question(models.Model):
+    content : models.TextField()
+    author : models.ForeignKey(User,on_delete=models.CASCADE)
