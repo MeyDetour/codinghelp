@@ -24,7 +24,17 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 
+class Theme(models.Model):
+    name = models.CharField(max_length=50)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.name
 
 class Question(models.Model):
-    content : models.TextField()
-    author : models.ForeignKey(User,on_delete=models.CASCADE)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    theme = models.ForeignKey(Theme, on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return self.content
+
