@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="{% static 'api/style.css' %}">
+</head>
+<body>
+<div class="blackHeader">
+    {{ data }}
+    <h1>Support & Documentation</h1>
+    <h2>Conding Help</h2>
+</div>
+
+<div class="section1">
+    {% for route in routes %}
+        <div class="div .route{{ forloop.counter0 }}">
+           <div class="type
+                {% if route.method == "GET" %}
+                    greenType
+                {% elif route.method == "POST" %}
+                    blueType
+                {% elif route.method == "DELETE" %}
+                    redType
+                {% else %}
+                    grayType
+                {% endif %}
+            ">
+                {{ route.method }}
+            </div>
+           <span class="name">{{ route.title }}</span>
+           <span class="path">{{ route.url }}</span>
+
+        </div>
+    {% endfor %}
+</div>
+
+<div class="section2">
+     {% for route in routes %}
+        <div class="div .route{{ forloop.counter0 }}">
+           <div class="type
+                {% if route.method == "GET" %}
+                    greenType
+                {% elif route.method == "POST" %}
+                    blueType
+                {% elif route.method == "DELETE" %}
+                    redType
+                {% else %}
+                    grayType
+                {% endif %}
+            ">
+                {{ route.method }}
+            </div>
+           <span class="name">{{ route.title }}</span>
+           <span class="path">{{ route.url }}</span>
+
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -44,13 +44,38 @@ def get_all_users(request):
     return Response(serializer.data, status=200)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET' ])
 def get_user(request, id):
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
 
     user = get_object_or_404(User, id=id)
+
+    return Response(UserSerializer(user).data)
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_user(request):
+
+    serializer = UserSerializer(data=request.data)
+    print(request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    refresh = RefreshToken.for_user(user)
+    return Response({"message":"ok"
+    }, status=201)
+
+
+@api_view(['GET','PUT','DELETE'])
+def get_profile(request):
+    user = is_authenticate(request)
+
+    if not user:
+        return Response({"message": "Erreur lors de l'authentification"})
+
 
     if request.method == 'GET':
         return Response(UserSerializer(user).data)
@@ -67,27 +92,3 @@ def get_user(request, id):
 
         return Response({"message":"ok"}, status=400)
 
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def create_user(request):
-
-    serializer = UserSerializer(data=request.data)
-    print(request.data)
-    serializer.is_valid(raise_exception=True)
-    user = serializer.save()
-    refresh = RefreshToken.for_user(user)
-    return Response({
-        'user': UserSerializer(user).data,
-        'access_token': str(refresh.access_token),
-        'refresh_token': str(refresh),
-    }, status=201)
-
-
-@api_view(['GET'])
-def get_profile(request):
-    user = is_authenticate(request)
-    if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
-
-    return Response(UserSerializer(user).data)

@@ -36,20 +36,35 @@ def create_question(request):
 
 @api_view(['GET','PUT','DELETE'])
 def get_question(request,id):
+
+
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "Erreur lors de l'authentification"},status=400)
 
     question =  get_object_or_404(Question,pk=id)
+    if question.author == None :
+        question.delete()
+
+        return Response({"message": "Question deleted"})
+
+
+
     if request.method=='GET':
         return Response(QuestionSerializer(question).data)
 
     if request.method == "PUT":
+        if question.author.id != user.id :
+            return Response({"message": "You can't delete this"},status=403)
+
         serializer = QuestionSerializer(instance=question,data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     if request.method == 'DELETE':
+        if question.author.id != user.id:
+            return Response({"message": "You can't delete this"}, status=403)
+
         question.delete()
         return Response({'message':"ok"})

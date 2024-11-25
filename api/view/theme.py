@@ -24,15 +24,24 @@ def get_theme(request,id):
         return Response({"message": "Erreur lors de l'authentification"})
 
     theme = get_object_or_404(Theme,id=id)
+    if theme.author == None:
+        theme.delete()
     if request.method == 'GET':
          return Response(ThemeSerializer(theme).data)
     if request.method == "PUT":
+
+        if theme.author.id != user.id:
+            return Response({"message": "You can't delete this"}, status=403)
+
         serializer = ThemeSerializer(instance=theme,data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return  Response(serializer.data)
 
     if request.method == "DELETE":
+        if theme.author.id != user.id:
+            return Response({"message": "You can't delete this"}, status=403)
+
         theme.delete()
         return  Response({'message':"ok"})
 

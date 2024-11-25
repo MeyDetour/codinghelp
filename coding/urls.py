@@ -19,9 +19,11 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.view import  create_user
+from api.view.other import render_doc
 
 urlpatterns = [
 
+    path('doc', render_doc, name='render_doc'),
     path('register', create_user, name='createuser'),
 
     path('login', TokenObtainPairView.as_view(), name='token_obtain_pair'),

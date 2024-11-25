@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+
+body {
+    margin: 0;
+    padding: 34px;
+    box-sizing: border-box;
+
+    background-image: url(../bckground.png);
+    background-position: center;
+    background-size: cover;
+    width: 100vw;
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+
+    font-family: "Nunito", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.blackHeader {
+    width: 100%;
+    height: 58vh;
+
+
+    color: white;
+    background-image: url("../blackBackground.png");
+
+    background-size: cover;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+
+    font-size: 40px;
+    color: white;
+}
+
+/*=========== Types ===============*/
+.section1 .type {
+    padding: 5px 12px;
+    border-radius: 7px;
+
+    font-size: 16px;
+}
+
+.greenType {
+    background: #00800030;
+    border: 1px solid green;
+    color: green;
+}
+
+.redType {
+      background: #ff000030;
+    border: 1px solid red;
+    color: red;
+}
+
+.blueType {
+    background: rgba(0, 0, 255, 0.19);
+    border: 1px solid blue;
+    color: blue;
+}
+
+.grayType {
+    background: rgba(128, 128, 128, 0.19);
+    border: 1px solid grey;
+    color: grey;
+}
+
+/*=========== ===============*/
+
+.section1 {
+
+    padding-block: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-around;
+}
+
+.section1 > div {
+    background: #ffffffa6;
+     min-height: 140px;
+    width: 13%;
+    border: 1px solid #cbc9c9;
+     padding: 34px 18px;
+    box-sizing: border-box;
+    border-radius: 9px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    gap: 13px;
+
+
+    box-shadow: 0px 6px 23px 0px #8080802e;
+}
+
+.section1 > div .name{
+      font-weight: 780;
+}
+.section1 > div .path{
+    color: #121212;
+}
