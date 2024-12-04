@@ -1,7 +1,7 @@
 from django.urls import path
 
 from api.view import get_user, get_all_users, get_profile
-from api.view.question import create_question, get_question
+from api.view.question import create_question, get_question, get_questions
 from api.view.theme import create_theme, get_themes, get_theme, add_question_to_theme
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('question/new', create_question, name='create_question'),
     path('question/<int:id>', get_question, name='get_question'),
+    path('questions', get_questions, name='get_questions'),
     path('add/question/<int:qutestionId>/to/theme/<int:themeId>', add_question_to_theme, name='add_question_to_theme'),
     path('themes', get_themes, name='get_themes'),
     path('theme/<int:id>', get_theme, name='get_theme'),

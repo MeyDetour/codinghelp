@@ -34,7 +34,8 @@ class Theme(models.Model):
 class Question(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    theme = models.ForeignKey(Theme, on_delete=models.CASCADE, null=True)
+    themes = models.ManyToManyField(Theme, related_name="questions")  # Many-to-Many relation
+    isValidate =  models.BooleanField(null=True)
     def __str__(self):
         return self.content
 

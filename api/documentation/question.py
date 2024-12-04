@@ -21,6 +21,15 @@ def get_user_routes():
             ,
             "responseJson": [{}]
         },{
+            'title': 'Get questions',
+            'method': 'GET',
+            'url': 'api/questions',
+            'description': '',
+            'needToken': True,
+            'bodyJson': {}
+            ,
+            "responseJson": [{}]
+        },{
             'title': 'Edit question',
             'method': 'PUT',
             'url': 'api/question/{id}',
