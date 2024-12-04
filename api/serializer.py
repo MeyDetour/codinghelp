@@ -3,7 +3,7 @@ from math import trunc
 from django.template.context_processors import request
 from rest_framework import serializers
 
-from api.models import User, Question,Theme
+from api.models import User, Question, Theme, UpVote,Response
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,6 +48,26 @@ class QuestionSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
         return data
+class UpvoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UpVote
+        fields = []
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
+        return data
+
+
+class ResponseSerializer(serializers.ModelSerializer):
+    upvote_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Response
+        fields = ['id', 'content', 'author', 'upvote_count']
+
+    def get_upvote_count(self, obj):
+        return obj.upvotes.count()
 
 class ThemeDetailSerializer(serializers.ModelSerializer):
     #pour les relations many to one

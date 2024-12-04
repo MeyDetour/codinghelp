@@ -1,0 +1,10 @@
+USER CAN DELETE ITS OWN PROFILE
+-> if he had no themes create or question
+-> else we replace it with DELETED USER
+
+DELETE QUESTION delete all response
+Add upvote to response
+
+CRUD RESPONSE TO QUESTION
+
+DOCUMENTATION

@@ -9,13 +9,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.models import Question, Theme
-from api.serializer import QuestionSerializer, UserSerializer
+from api.serializer import QuestionSerializer,  ResponseSerializer
 from api.view import is_authenticate
 
 
 @api_view(['POST'])
-def create_question(request):
-    # create question with question content and associate directly minimum  one theme
+def create_response(request):
+    # create response with response content and associate directly minimum  one theme
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -24,27 +24,30 @@ def create_question(request):
         return Response({'message': "No content send"})
 
 
-    theme_ids = request.data.get('themes', [])
-    if not isinstance(theme_ids, list) or not theme_ids:
-        return Response({'message': "please send a list of themes id"}, status=400)
+    question_id = request.data.get('question')
 
-    themes = Theme.objects.filter(id__in=theme_ids)
-    if themes.count() != len(theme_ids):
-        return Response({'message': "Osome theme doesnt exist"}, status=404)
+    if not request.data.get('question'):
+        return Response({'message': "No question attached"})
+
+    try :
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        return Response({'message': "Question wanted doesnt exist"}, status=404)
 
 
     data = request.data.copy()
     data['author'] = user.id
+    data['question'] = question.id
 
-    serializer = QuestionSerializer(data=data, partial=True)
+    serializer = ResponseSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
-    question = serializer.save()
-    return Response(QuestionSerializer(question).data)
+    response =   serializer.save()
+    return Response(ResponseSerializer(response).data,status=201)
 
 
 @api_view(['GET'])
-def get_questions(request):
-    # get all questions ( function principaly used on debug )
+def get_responses(request):
+    # get all responses ( function principaly used on debug )
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -55,33 +58,33 @@ def get_questions(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def get_question(request, id):
-    # get one question and all response associated with
+def get_response(request, id):
+    # get one response and all response associated with
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"}, status=400)
 
-    question = get_object_or_404(Question, pk=id)
-    if question.author == None:
-        question.delete()
+    response = get_object_or_404(Question, pk=id)
+    if response.author == None:
+        response.delete()
 
         return Response({"message": "Question deleted"})
 
     if request.method == 'GET':
-        return Response(QuestionSerializer(question).data)
+        return Response(QuestionSerializer(response).data)
 
     if request.method == "PUT":
-        if question.author.id != user.id:
+        if response.author.id != user.id:
             return Response({"message": "You can't delete this"}, status=403)
 
-        serializer = QuestionSerializer(instance=question, data=request.data)
+        serializer = QuestionSerializer(instance=response, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     if request.method == 'DELETE':
-        if question.author.id != user.id:
+        if response.author.id != user.id:
             return Response({"message": "You can't delete this"}, status=403)
 
-        question.delete()
+        response.delete()
         return Response({'message': "ok"})

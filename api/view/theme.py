@@ -22,7 +22,7 @@ def get_themes(request):
 
 @api_view(['GET',"PUT","DELETE"])
 def get_theme(request,id):
-    #get one theme and details
+    #get one theme and list of question
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -52,6 +52,7 @@ def get_theme(request,id):
 
 @api_view(['POST'])
 def create_theme(request):
+    #create theme with juste a name
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -70,6 +71,8 @@ def create_theme(request):
 
 @api_view(['PATCH'])
 def add_question_to_theme(request,qutestionId,themeId):
+    # after creating theme and question we can associate many question to many theme
+    # here is the function to add one question to one theme
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
