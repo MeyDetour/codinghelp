@@ -45,7 +45,7 @@ def get_theme(request,id):
     if request.method == "DELETE":
         if theme.author.id != user.id:
             return Response({"message": "You can't delete this"}, status=403)
-        if not theme.question_set.exists():
+        if not theme.questions.exists():
              theme.delete()
              return  Response({'message':"ok"})
         return Response({"message": "Cannot delete a theme with associated questions"}, status=400)

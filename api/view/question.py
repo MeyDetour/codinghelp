@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.models import Question, Theme
-from api.serializer import QuestionSerializer, UserSerializer
+from api.serializer import QuestionSerializer, UserSerializer, QuestionDetailsSerializer
 from api.view import is_authenticate
 
 
@@ -68,11 +68,11 @@ def get_question(request, id):
         return Response({"message": "Question deleted"})
 
     if request.method == 'GET':
-        return Response(QuestionSerializer(question).data)
+        return Response(QuestionDetailsSerializer(question).data)
 
     if request.method == "PUT":
         if question.author.id != user.id:
-            return Response({"message": "You can't delete this"}, status=403)
+            return Response({"message": "You can't edit this"}, status=403)
 
         serializer = QuestionSerializer(instance=question, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -82,6 +82,9 @@ def get_question(request, id):
     if request.method == 'DELETE':
         if question.author.id != user.id:
             return Response({"message": "You can't delete this"}, status=403)
+
+        if question.responses.exists():
+            return Response({"message": "You can't delete this there are many responses"}, status=403)
 
         question.delete()
         return Response({'message': "ok"})

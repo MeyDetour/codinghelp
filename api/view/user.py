@@ -10,18 +10,16 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.models import User
-from api.serializer import UserSerializer
+from api.serializer import UserSerializer, UserDetailsSerializer
 
 
 def is_authenticate(request):
 
-    print("search for user")
     jwt_authenticator = JWTAuthentication()
 
     try:
         user, token = jwt_authenticator.authenticate(request)
-        print("Utilisateur authentifié :", user)
-        print("Token :", token)
+
     except Exception as e:
         print("Erreur lors de l'authentification :", e)
         return None
@@ -50,9 +48,9 @@ def get_user(request, id):
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
 
-    user = get_object_or_404(User, id=id)
+    user_to_get = get_object_or_404(User, id=id)
 
-    return Response(UserSerializer(user).data)
+    return Response(UserDetailsSerializer(user_to_get).data)
 
 
 
@@ -78,6 +76,7 @@ def get_profile(request):
 
 
     if request.method == 'GET':
+
         return Response(UserSerializer(user).data)
 
     if request.method == 'PUT':
@@ -90,5 +89,21 @@ def get_profile(request):
     if request.method == 'DELETE':
         user.delete()
 
-        return Response({"message":"ok"}, status=400)
+        return Response({"message":"ok"}, status=200)
+
+
+
+@api_view(['PATCH'])
+def follow_user(request,id):
+
+    user = is_authenticate(request)
+    if not user:
+        return Response({"message": "Erreur lors de l'authentification"})
+    if user.id != id:
+        return Response({"message": "Vous n'êtes pas autorisé à voir cet utilisateur"}, status=403)
+
+    user2 = get_object_or_404(User,pk=id)
+    user.following.add(user2)
+    user.save()
+    return Response({"message": "ok"}, status=200)
 

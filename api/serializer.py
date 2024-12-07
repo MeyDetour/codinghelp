@@ -1,17 +1,17 @@
+from crypt import methods
 from math import trunc
 
 from django.template.context_processors import request
 from rest_framework import serializers
 
-from api.models import User, Question, Theme, UpVote,Response
+from api.models import User, Question, Theme, Vote,ResponseText
 
 
 class UserSerializer(serializers.ModelSerializer):
-    question_count= serializers.IntegerField(source="question_set.count",read_only=True)
 
     class Meta:
         model = User
-        fields = ['first_name',"last_name",'password','id',"last_login","is_superuser","email","is_staff","username","question_count"]
+        fields = ['first_name',"last_name",'password','id',"last_login","is_superuser","email","is_staff","username"]
         extra_kwargs={
             "password":{'write_only':True,"required":False},
             "email":{'required':False}
@@ -36,21 +36,68 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class UserDetailsSerializer(serializers.ModelSerializer):
+    questions_count= serializers.SerializerMethodField()
+    responses_count= serializers.SerializerMethodField()
+    themes_count= serializers.SerializerMethodField()
+    votes_count= serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['first_name',"last_name",'password','id',"last_login","is_superuser","email","is_staff","username","questions_count","themes_count","votes_count","responses_count","followers","following"]
+        extra_kwargs={
+            "password":{'write_only':True,"required":False},
+            "email":{'required':False}
+        }
+
+    def get_questions_count(self,obj):
+        return obj.questions.count()
+    def get_themes_count(self,obj):
+        return obj.themes.count()
+    def get_responses_count(self,obj):
+        return obj.responses.count()
+    def get_votes_count(self,obj):
+        return obj.votes.count()
+
+    def get_followers(self,obj):
+        return obj.followers.all()
 
 class QuestionSerializer(serializers.ModelSerializer):
     themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
+    responses_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Question
-        fields = ['id','content', 'author','themes','isValidate']
+        fields = ['id','content', 'author','themes','isValidate','responses_count']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
         return data
-class UpvoteSerializer(serializers.ModelSerializer):
+    def get_responses_count(self, obj):
+        return obj.responses.count()
+
+class QuestionDetailsSerializer(serializers.ModelSerializer):
+    themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
+    responses = serializers.SerializerMethodField()
+
     class Meta:
-        model = UpVote
+        model = Question
+        fields = ['id','content', 'author','themes','isValidate','responses']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
+        return data
+
+    def get_responses(self, obj):
+        responses = obj.responses.all()  # Utilisation du related_name défini dans Response
+        return ResponseSerializer(responses, many=True).data
+
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vote
         fields = []
 
     def to_representation(self, instance):
@@ -61,18 +108,21 @@ class UpvoteSerializer(serializers.ModelSerializer):
 
 class ResponseSerializer(serializers.ModelSerializer):
     upvote_count = serializers.SerializerMethodField()
+    downvote_count = serializers.SerializerMethodField()
 
     class Meta:
-        model = Response
-        fields = ['id', 'content', 'author', 'upvote_count']
+        model = ResponseText
+        fields = ['id', 'content', 'author', 'upvote_count','downvote_count',"question"]
 
     def get_upvote_count(self, obj):
-        return obj.upvotes.count()
+        return obj.votes.filter(type="upvote").count()
+
+    def get_downvote_count(self, obj):
+        return obj.votes.filter(type="downvote").count()
 
 class ThemeDetailSerializer(serializers.ModelSerializer):
     #pour les relations many to one
     #questions = QuestionSerializer(many=True, read_only=True, source='question_set')
-
     # pour le many to many
     questions = serializers.SerializerMethodField()
 
@@ -87,9 +137,15 @@ class ThemeDetailSerializer(serializers.ModelSerializer):
         return QuestionSerializer(questions, many=True).data
 
 class ThemeListSerializer(serializers.ModelSerializer):
-    question_count = serializers.IntegerField(source='question_set.count', read_only=True)
+    questions_count = serializers.SerializerMethodField()
     # ajotuer apres le nombre de personne ayant participé
-
+    contributor_count = serializers.SerializerMethodField()
     class Meta:
         model = Theme
-        fields = ['id', 'name', 'author', 'question_count']
+        fields = ['id', 'name', 'author', 'questions_count',"contributor_count"]
+
+    def get_questions_count(self,obj):
+        return obj.questions.count()
+    def get_contributor_count(self,obj):
+        contributors = obj.questions.values_list('author', flat=True).distinct()
+        return contributors.count()

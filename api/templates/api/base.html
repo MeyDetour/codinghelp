@@ -8,16 +8,19 @@
     <link rel="stylesheet" href="{% static 'api/style.css' %}">
 </head>
 <body>
+<div class="backgroundImage">
+
+</div>
 <div class="blackHeader">
     {{ data }}
     <h1>Support & Documentation</h1>
-    <h2>Conding Help</h2>
+    <h2>Coding Help</h2>
 </div>
 
 <div class="section1">
     {% for route in routes %}
-        <div class="div .route{{ forloop.counter0 }}">
-           <div class="type
+        <div class=" ">
+            <div class="type
                 {% if route.method == "GET" %}
                     greenType
                 {% elif route.method == "POST" %}
@@ -30,17 +33,19 @@
             ">
                 {{ route.method }}
             </div>
-           <span class="name">{{ route.title }}</span>
-           <span class="path">{{ route.url }}</span>
+            <span class="name">{{ route.title }}</span>
+            <span class="path">{{ route.url }}</span>
 
         </div>
     {% endfor %}
 </div>
 
 <div class="section2">
-     {% for route in routes %}
-        <div class="div .route{{ forloop.counter0 }}">
-           <div class="type
+    {% for route in routes %}
+
+        <h3>{{ route.title }}</h3>
+        <div class="div route{{ forloop.counter0 }}">
+            <div class="type
                 {% if route.method == "GET" %}
                     greenType
                 {% elif route.method == "POST" %}
@@ -53,10 +58,59 @@
             ">
                 {{ route.method }}
             </div>
-           <span class="name">{{ route.title }}</span>
-           <span class="path">{{ route.url }}</span>
-
+            <span class="path">{{ route.url }}</span>
         </div>
+
+        <span><kbd>{{ route.methode }}</kbd> {{ route.url }} </span>
+
+
+        <p class="alignItems">
+
+            {% if  route.needToken %} This route needs authentication {% else %}    This route doesn't need
+                authentication  {% endif %}
+            {% if route.needToken %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_94_2)">
+                        <path d="M9.24564 10.768C9.52163 11.0661 9.78912 11.3551 10.1336 11.5386C10.2195 13.614 10.4217 19.5548 10.4217 19.5548L11.2588 20.3257C11.2588 20.3257 12.7574 20.3436 12.7705 20.1186C12.8052 19.4477 12.8042 19.0142 12.8042 19.0142L12.05 17.8664L13.0566 16.7867L12.1498 15.6333L13.2677 14.5579L12.2156 13.3988L13.4684 12.3284L13.2749 11.7053C13.7725 11.5299 14.1532 11.2924 14.5683 10.9082C16.1391 9.45398 16.2782 7.05118 14.8813 5.54226C13.4844 4.03334 11.0813 3.99244 9.5105 5.44666C7.93966 6.90087 7.84875 9.25909 9.24564 10.768ZM13.0815 6.22893C13.2446 6.40514 13.3519 6.62576 13.3896 6.86289C13.4273 7.10003 13.3939 7.34303 13.2935 7.56116C13.1932 7.7793 13.0304 7.96278 12.8257 8.08839C12.6211 8.214 12.3838 8.27611 12.1438 8.26686C11.9039 8.25761 11.6721 8.17742 11.4777 8.03642C11.2834 7.89543 11.1352 7.69996 11.0519 7.47475C10.9686 7.24953 10.954 7.00468 11.0099 6.77115C11.0658 6.53763 11.1896 6.32592 11.3659 6.16279C11.4828 6.05433 11.6199 5.96999 11.7695 5.91461C11.919 5.85922 12.078 5.83387 12.2374 5.84002C12.3968 5.84616 12.5534 5.88368 12.6982 5.95041C12.843 6.01715 12.9733 6.11179 13.0815 6.22893Z"
+                              fill="black" style="fill:black;fill-opacity:1;"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_94_2">
+                            <rect width="16" height="16" fill="white" style="fill:white;fill-opacity:1;"
+                                  transform="translate(0.69458 11.564) rotate(-42.7923)"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            {% endif %}
+
+        </p>
+
+
+        <p class="description">{{ route.description }}</p>
+
+        {% if route.bodyJson and route.responseJson %}
+            <div class="rowWithPre">
+
+                <div class="preContainer">
+                    <span>Body : </span>
+                    <script id="bodyJsonData" type="application/json">
+                        {{ route.bodyJson|json_script:"bodyJsonData" }}
+                    </script>
+                    <pre class=""><span class="json">Json</span> {{ route.bodyJson|json_script:"bodyJsonData" }}</pre>
+                </div>
+
+                <div class="preContainer">
+                    <span>Response : </span>
+                 <script id="bodyJsonData" type="application/json">
+                        {{ route.responseJson|json_script:"bodyJsonData" }}
+                    </script>
+                    <pre class=""><span class="json">Json</span> {{ route.responseJson|json_script:"bodyJsonData" }}</pre>
+
+                </div>
+
+            </div>
+
+        {% endif %}
     {% endfor %}
 </div>
 </body>

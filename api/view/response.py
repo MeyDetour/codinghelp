@@ -8,14 +8,16 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.models import Question, Theme
-from api.serializer import QuestionSerializer,  ResponseSerializer
+
+from api.models import Question, Theme,ResponseText
+from api.serializer import QuestionSerializer, ResponseSerializer
 from api.view import is_authenticate
 
 
 @api_view(['POST'])
 def create_response(request):
-    # create response with response content and associate directly minimum  one theme
+    # create response with  content and associate it to question
+    # we get all responses directly in question
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -23,64 +25,49 @@ def create_response(request):
     if not request.data.get('content'):
         return Response({'message': "No content send"})
 
-
     question_id = request.data.get('question')
 
     if not request.data.get('question'):
         return Response({'message': "No question attached"})
 
-    try :
+    try:
         question = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
-        return Response({'message': "Question wanted doesnt exist"}, status=404)
-
+        return Response({'message': "Question does not exist"}, status=404)
 
     data = request.data.copy()
     data['author'] = user.id
     data['question'] = question.id
+    print(data)
 
     serializer = ResponseSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
-    response =   serializer.save()
-    return Response(ResponseSerializer(response).data,status=201)
+    response = serializer.save()
+    return Response(ResponseSerializer(response).data, status=201)
 
 
-@api_view(['GET'])
-def get_responses(request):
-    # get all responses ( function principaly used on debug )
-    user = is_authenticate(request)
-    if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+@api_view([ 'DELETE'])
+def delete_response(request, id):
 
-    themes = Question.objects.all()
-    serializer = QuestionSerializer(themes, many=True)
-    return (Response(serializer.data))
-
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def get_response(request, id):
-    # get one response and all response associated with
+    # we dont want user to edit response after send it
+    # user can only delete
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"}, status=400)
 
-    response = get_object_or_404(Question, pk=id)
+    response = get_object_or_404(ResponseText, pk=id)
     if response.author == None:
         response.delete()
+        return Response({"message": "Response deleted"})
 
-        return Response({"message": "Question deleted"})
-
-    if request.method == 'GET':
-        return Response(QuestionSerializer(response).data)
-
-    if request.method == "PUT":
-        if response.author.id != user.id:
-            return Response({"message": "You can't delete this"}, status=403)
-
-        serializer = QuestionSerializer(instance=response, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+    # if request.method == "PUT":
+    #     if response.author.id != user.id:
+    #         return Response({"message": "You can't delete this"}, status=403)
+    #
+    #     serializer = QuestionSerializer(instance=response, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data)
 
     if request.method == 'DELETE':
         if response.author.id != user.id:
