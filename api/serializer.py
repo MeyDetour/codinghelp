@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email":{'required':False}
         }
 
+
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
@@ -25,7 +26,9 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
     def update(self, instance, validated_data):
+        # avoid edit password and email
         validated_data.pop('password', None)
         validated_data.pop('email', None)
 
@@ -41,7 +44,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     responses_count= serializers.SerializerMethodField()
     themes_count= serializers.SerializerMethodField()
     votes_count= serializers.SerializerMethodField()
-    followers = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -60,8 +62,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     def get_votes_count(self,obj):
         return obj.votes.count()
 
-    def get_followers(self,obj):
-        return obj.followers.all()
 
 class QuestionSerializer(serializers.ModelSerializer):
     themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
@@ -121,9 +121,6 @@ class ResponseSerializer(serializers.ModelSerializer):
         return obj.votes.filter(type="downvote").count()
 
 class ThemeDetailSerializer(serializers.ModelSerializer):
-    #pour les relations many to one
-    #questions = QuestionSerializer(many=True, read_only=True, source='question_set')
-    # pour le many to many
     questions = serializers.SerializerMethodField()
 
     class Meta:
@@ -138,7 +135,9 @@ class ThemeDetailSerializer(serializers.ModelSerializer):
 
 class ThemeListSerializer(serializers.ModelSerializer):
     questions_count = serializers.SerializerMethodField()
-    # ajotuer apres le nombre de personne ayant participé
+
+
+    #number of people that contribuate to this project
     contributor_count = serializers.SerializerMethodField()
     class Meta:
         model = Theme
@@ -147,5 +146,17 @@ class ThemeListSerializer(serializers.ModelSerializer):
     def get_questions_count(self,obj):
         return obj.questions.count()
     def get_contributor_count(self,obj):
+        # chatgpt mais j'ai compris !
+
+        # Récupérer les auteurs distincts des questions liées au thème
         contributors = obj.questions.values_list('author', flat=True).distinct()
-        return contributors.count()
+
+        # Récupérer les auteurs distincts des réponses des questions liées au thème
+        answerers = obj.questions.values_list('responses__author', flat=True).distinct()
+
+        # Combine les deux ensembles d'auteurs (questions et réponses)
+        # Utiliser `union` pour garantir que les auteurs ne soient comptés qu'une seule fois
+        all_contributors = set(contributors).union(set(answerers))
+
+        # Retourner le nombre total de contributeurs uniques
+        return len(all_contributors)

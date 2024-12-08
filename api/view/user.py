@@ -14,7 +14,8 @@ from api.serializer import UserSerializer, UserDetailsSerializer
 
 
 def is_authenticate(request):
-
+    # function used in all function to verify if
+    # there is one user connected, it return user or none
     jwt_authenticator = JWTAuthentication()
 
     try:
@@ -33,6 +34,8 @@ def is_authenticate(request):
 
 @api_view(['GET'])
 def get_all_users(request):
+    # get all user may not be used in front end
+    # this request return juste simple informations of user
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -44,6 +47,8 @@ def get_all_users(request):
 
 @api_view(['GET' ])
 def get_user(request, id):
+    # this request return all informations about
+    # user and its activity
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -58,8 +63,8 @@ def get_user(request, id):
 @permission_classes([AllowAny])
 def create_user(request):
 
+    #create account with email username and password
     serializer = UserSerializer(data=request.data)
-    print(request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
     refresh = RefreshToken.for_user(user)
@@ -69,6 +74,12 @@ def create_user(request):
 
 @api_view(['GET','PUT','DELETE'])
 def get_profile(request):
+
+    # get profilte
+    # edit profile : we cant change password here
+    # delete profile ( in progress )
+    # we dont want to delete all question created by use
+    # we want to create an "deleted user" and associate question to him
     user = is_authenticate(request)
 
     if not user:
@@ -87,6 +98,7 @@ def get_profile(request):
         return Response(serializer.errors, status=400)
 
     if request.method == 'DELETE':
+
         user.delete()
 
         return Response({"message":"ok"}, status=200)
@@ -96,6 +108,8 @@ def get_profile(request):
 @api_view(['PATCH'])
 def follow_user(request,id):
 
+    #follow user with id, we appear in followers and he appear in following
+    # we cant follow itself
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})

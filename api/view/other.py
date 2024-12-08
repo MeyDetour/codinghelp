@@ -6,7 +6,7 @@ from api.documentation import get_user_routes, get_theme_routes
 
 
 def render_doc(request):
-
+    # juste render doc like name indicate
     data = get_user_routes()  + get_theme_routes()
     print(data)
 

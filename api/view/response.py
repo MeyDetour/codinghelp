@@ -36,6 +36,7 @@ def create_response(request):
         return Response({'message': "Question does not exist"}, status=404)
 
     data = request.data.copy()
+    # auto add author
     data['author'] = user.id
     data['question'] = question.id
     print(data)
@@ -51,6 +52,7 @@ def delete_response(request, id):
 
     # we dont want user to edit response after send it
     # user can only delete
+    # delete response delete also all votes associated
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"}, status=400)

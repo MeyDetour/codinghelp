@@ -34,6 +34,7 @@ def create_question(request):
 
 
     data = request.data.copy()
+    #auto add author
     data['author'] = user.id
 
     serializer = QuestionSerializer(data=data, partial=True)
@@ -45,6 +46,8 @@ def create_question(request):
 @api_view(['GET'])
 def get_questions(request):
     # get all questions ( function principaly used on debug )
+    # not use in front end because all questions are associated
+    # with one theme, we get all questions of one theme not only all questions
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
@@ -57,6 +60,8 @@ def get_questions(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def get_question(request, id):
     # get one question and all response associated with
+    # edit one question
+    # delete question and all response associated and all vote associated
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"}, status=400)

@@ -23,6 +23,8 @@ def get_themes(request):
 @api_view(['GET',"PUT","DELETE"])
 def get_theme(request,id):
     #get one theme and list of question
+    # edit theme name
+    # delete the theme if the are no questions associated
     user = is_authenticate(request)
     if not user:
         return Response({"message": "Erreur lors de l'authentification"})
