@@ -72,7 +72,7 @@ def delete_response(request, id):
     #     return Response(serializer.data)
 
     if request.method == 'DELETE':
-        if response.author.id != user.id:
+        if response.author.id != user.id and not user.is_superuser:
             return Response({"message": "You can't delete this"}, status=403)
 
         response.delete()

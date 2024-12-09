@@ -17,6 +17,10 @@ from django.db import models
 #         return self.name
 
 class User(AbstractUser):
+
+    # to set user to admin you must change row in db you cant do this with interface or function
+    # super user can delete all question an all responses
+
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     followings = models.ManyToManyField(

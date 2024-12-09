@@ -87,7 +87,7 @@ def get_question(request, id):
         return Response(serializer.data)
 
     if request.method == 'DELETE':
-        if question.author.id != user.id:
+        if question.author.id != user.id and not user.is_superuser:
             return Response({"message": "You can't delete this"}, status=403)
 
         if question.responses.exists():

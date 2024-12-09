@@ -126,6 +126,46 @@ def get_field_of_user(request,id,field):
     if field == 'questions':
         serializer =  QuestionSerializer(user_to_get.questions.all(), many=True)
     elif field == 'followers':
+        users = user_to_get.followings.annotate(
+            questions_count=Count('questions'),
+            responses_count=Count('responses'),
+            followers_count=Count('followers'),
+            following_count=Count('followings')
+        )
+        users = users.order_by('-questions_count', '-responses_count', '-followers_count', '-following_count')
+
+        serializer = UserSerializer(users, many=True)
+
+
+    elif field == 'followings':
+        users = user_to_get.followers.annotate(
+            questions_count=Count('questions'),
+            responses_count=Count('responses'),
+            followers_count=Count('followers'),
+            following_count=Count('followings')
+        )
+        users = users.order_by('-questions_count', '-responses_count', '-followers_count', '-following_count')
+
+        serializer = UserSerializer(users, many=True)
+
+
+    elif field == 'responses':
+        serializer = ResponseSerializer(user_to_get.responses.all(), many=True)
+
+    return Response(serializer.data)
+@api_view(['GET'])
+def get_field_of_current_user(request,field):
+    user = is_authenticate(request)
+
+    if not user:
+        return Response({"message": "Erreur lors de l'authentification"})
+
+    if field not in ['questions',"followers","followings","responses"]:
+        return Response({"message": "search field must be in questions or followers or followings or responses"})
+
+    if field == 'questions':
+        serializer =  QuestionSerializer(user.questions.all(), many=True)
+    elif field == 'followers':
         users = user.followings.annotate(
             questions_count=Count('questions'),
             responses_count=Count('responses'),
@@ -150,7 +190,7 @@ def get_field_of_user(request,id,field):
 
 
     elif field == 'responses':
-        serializer = ResponseSerializer(user_to_get.responses.all(), many=True)
+        serializer = ResponseSerializer(user.responses.all(), many=True)
 
     return Response(serializer.data)
 

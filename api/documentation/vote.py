@@ -1,60 +1,20 @@
-
-
 def get_vote_routes():
-    return   [
-     {
-            'title': 'Create question',
-            'method': 'POST',
-            'url': 'api/question/new',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Get question',
-            'method': 'GET',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Get questions',
-            'method': 'GET',
-            'url': 'api/questions',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Edit question',
-            'method': 'PUT',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Delete question',
-            'method': 'DELETE',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Add question to theme',
-            'method': 'PATCH',
-            'url': 'add/question/{qutestionId}/to/theme/{themeId}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
+    return [
+        {
+            "title": "To upvote response",
+            "method": "PATCH",
+            "url": "api/upvote/{responseId}",
+            "description": "Upvotes a response. If the response is already upvoted by the user, the vote is removed (toggle functionality). This allows the user to switch between upvoting and removing the upvote.",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
         }
-]
+        , {
+            "title": "To downvote response",
+            "method": "PATCH",
+            "url": "api/downvote/{responseId}",
+            "description": "Downvotes a response. If the response is already downvoted by the user, the vote is removed (toggle functionality). This allows the user to switch between downvoting and removing the downvote.",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
+        }]
