@@ -1,60 +1,36 @@
 
 
-def get_user_routes():
+def get_response_routes():
     return   [
-     {
-            'title': 'Create question',
-            'method': 'POST',
-            'url': 'api/question/new',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Get question',
-            'method': 'GET',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Get questions',
-            'method': 'GET',
-            'url': 'api/questions',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Edit question',
-            'method': 'PUT',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Delete question',
-            'method': 'DELETE',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        },{
-            'title': 'Add question to theme',
-            'method': 'PATCH',
-            'url': 'add/question/{qutestionId}/to/theme/{themeId}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
+        {
+            "title": "Create response",
+            "method": "POST",
+            "url": "api/response/new",
+            "description": "Creates a response with its content. The author is automatically assigned.",
+            "needToken": True,
+            "bodyJson": {
+                "content": "string (NOT NULL)",
+                "question": "int (NOT NULL)"
+            },
+            "responseJson": {
+                "id": "int (AI) (NOT NULL)",
+                "created_at": "d.m.Y",
+                "content": "string (NOT NULL)",
+                "author": "int (NOT NULL)",
+                "upvote_count": "int",
+                "downvote_count": "int",
+                "question": "int (NOT NULL)"
+            }
         }
+        ,{
+    "title": "Delete response",
+    "method": "DELETE",
+    "url": "api/response/{id}",
+    "description": "Deletes a response and all associated votes.",
+    "needToken": True,
+    "bodyJson": {},
+    "responseJson": {}
+}
+
 ]
+

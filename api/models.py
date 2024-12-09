@@ -19,7 +19,7 @@ from django.db import models
 class User(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
-    following = models.ManyToManyField(
+    followings = models.ManyToManyField(
         'self',
         symmetrical=False,
         related_name='followers',  # Liste des abonnés de cet utilisateur
@@ -49,6 +49,9 @@ class Question(models.Model):
     # we avoid to delete theme in specific function get_question['DELETE']
     author = models.ForeignKey(User,on_delete=models.DO_NOTHING , null=True,related_name="questions")
     themes = models.ManyToManyField(Theme, related_name="questions")  # Many-to-Many relation
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    #question is set validate if there are less than 2 response and more than 500upvote on one response
     isValidate =  models.BooleanField(null=True)
     def __str__(self):
         return self.content
@@ -59,6 +62,8 @@ class ResponseText(models.Model):
     content = models.TextField()
     question = models.ForeignKey(Question,on_delete=models.CASCADE,null=False,related_name="responses")
     author = models.ForeignKey(User,on_delete=models.CASCADE,null=True,related_name="responses")
+    created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.content
 

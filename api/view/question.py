@@ -30,7 +30,7 @@ def create_question(request):
 
     themes = Theme.objects.filter(id__in=theme_ids)
     if themes.count() != len(theme_ids):
-        return Response({'message': "Osome theme doesnt exist"}, status=404)
+        return Response({'message': "this theme doesnt exist"}, status=404)
 
 
     data = request.data.copy()
@@ -78,6 +78,8 @@ def get_question(request, id):
     if request.method == "PUT":
         if question.author.id != user.id:
             return Response({"message": "You can't edit this"}, status=403)
+        if request.data.get('isValidate'):
+            return Response({"message": "Cannot validate question"}, status=403)
 
         serializer = QuestionSerializer(instance=question, data=request.data)
         serializer.is_valid(raise_exception=True)

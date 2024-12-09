@@ -1,4 +1,4 @@
-def get_user_routes():
+def get_question_routes():
     return [
         {
             "title": "Create question",
@@ -12,6 +12,7 @@ def get_user_routes():
             },
             "responseJson": {
                 "id": "int (AI) (NOT NULL)",
+                "created_at": "d.m.Y",
                 "content": "string (NOT NULL)",
                 "author": "int (NOT NULL)",
                 "themes": [
@@ -28,8 +29,9 @@ def get_user_routes():
             "description": "Get one question and all responses associated with it.",
             "needToken": True,
             "bodyJson": {},
-            "responseJson": [{
+            "responseJson": {
                 "id": "int (AI) (NOT NULL)",
+                "created_at": "d.m.Y",
                 "content": "string (NOT NULL)",
                 "author": "int (NOT NULL)",
                 "themes": [
@@ -39,6 +41,7 @@ def get_user_routes():
                 "responses": [
                     {
                         "id": "int (AI) (NOT NULL)",
+                        "created_at": "d.m.Y",
                         "content": "string (NOT NULL)",
                         "author": "int (NOT NULL)",
                         "upvote_count": "int (NOT NULL)",
@@ -46,24 +49,8 @@ def get_user_routes():
                         "question": "int (NOT NULL)"
                     }
                 ]
-            }]
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         , {
             "title": "Get questions",
@@ -74,6 +61,7 @@ def get_user_routes():
             "bodyJson": {},
             "responseJson": [{
                 "id": "int (NOT NULL)",
+                "created_at": "d.m.Y",
                 "content": "string (NOT NULL)",
                 "author": "int (NOT NULL)",
                 "themes": [
@@ -83,32 +71,50 @@ def get_user_routes():
                 "responses_count": "int (NOT NULL)"
             }]
         }
+
         , {
-            'title': 'Edit question',
-            'method': 'PUT',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        }, {
-            'title': 'Delete question',
-            'method': 'DELETE',
-            'url': 'api/question/{id}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
-        }, {
-            'title': 'Add question to theme',
-            'method': 'PATCH',
-            'url': 'add/question/{qutestionId}/to/theme/{themeId}',
-            'description': '',
-            'needToken': True,
-            'bodyJson': {}
-            ,
-            "responseJson": [{}]
+            "title": "Edit question",
+            "method": "PUT",
+            "url": "api/question/{id}",
+            "description": "Modify a question. The author and the validation status ('isValidate') cannot be updated through this endpoint. Validation occurs automatically if the question has fewer than 3 responses and at least one response has over 500 upvotes.",
+            "needToken": True,
+            "bodyJson": {
+                "content": "string (NOT NULL)",
+                "themes": ["int (NOT NULL)"]
+            },
+            "responseJson": {
+                "id": "int (NOT NULL)",
+                "created_at": "d.m.Y",
+                "content": "string (NOT NULL)",
+                "author": "int (NOT NULL)",
+                "themes": [
+                    "int (NOT NULL)"
+                ],
+                "isValidate": "boolean (NOT NULL)",
+                "responses_count": "int (NOT NULL)"
+            }
         }
+        , {
+            "title": "Delete question",
+            "method": "DELETE",
+            "url": "api/question/{id}",
+            "description": "Deletes a question along with all associated responses and the votes linked to those responses.",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {
+                "message": "string (NOT NULL)"
+            }
+        },
+        {
+            "title": "Add question to theme",
+            "method": "PATCH",
+            "url": "add/question/{questionId}/to/theme/{themeId}",
+            "description": "Adds a question to a specific theme. Alternatively, you can use 'Edit question' to modify the list of themes directly.",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {
+                "message": "string (NOT NULL)"
+            }
+        }
+
     ]

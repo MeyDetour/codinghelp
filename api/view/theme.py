@@ -42,7 +42,7 @@ def get_theme(request,id):
         serializer = ThemeDetailSerializer(instance=theme,data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return  Response(serializer.data)
+        return Response({"message": "ok"})
 
     if request.method == "DELETE":
         if theme.author.id != user.id:
