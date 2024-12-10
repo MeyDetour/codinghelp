@@ -57,9 +57,10 @@
     <div class="section2{{ themeName }}">
         {% for route in routes %}
             <div class="routeSection2{{ themeName }}{{ forloop.counter0 }}">
-
                 <h3>{{ route.title }}</h3>
-                <div class="div route{{ forloop.counter0 }}">
+
+                <div class="header">
+
                     <div class="type
                 {% if route.method == "GET" %}
                     greenType
@@ -73,10 +74,12 @@
             ">
                         {{ route.method }}
                     </div>
+
+
+                    <span>{{ route.url }} </span>
+
+
                 </div>
-
-                <span><kbd>{{ route.methode }}</kbd> {{ route.url }} </span>
-
 
                 <p class="alignItems">
 
@@ -102,33 +105,19 @@
 
                 <p class="description">{{ route.description }}</p>
 
-                {% if route.bodyJson and route.responseJson %}
-                    <div class="rowWithPre">
-
-                        <div class="preContainer">
-                            <span>Body : </span>
-                            <script id="bodyJsonData" type="application/json">
-                        {{ route.bodyJson|json_script:"bodyJsonData" }}
-                    </script>
-                            <pre class=""><span
-                                    class="json">Json</span> {{ route.bodyJson|json_script:"bodyJsonData" }}</pre>
-                        </div>
-
-                        <div class="preContainer">
-                            <span>Response : </span>
-                            <script id="bodyJsonData" type="application/json">
-                        {{ route.responseJson|json_script:"bodyJsonData" }}
-                    </script>
-                            <pre class=""><span
-                                    class="json">Json</span> {{ route.responseJson|json_script:"bodyJsonData" }}</pre>
-
-                        </div>
-
-                    </div>
+                <span>Body: </span>
+                <pre><span class="json">JSON</span><span class="json-content">{{ route.bodyJson|safe }}</span>
+                        </pre>
 
 
-                {% endif %}
+                <span>Response: </span>
+                <pre><span class="json">JSON</span><span class="json-content">{{ route.responseJson|safe }}</span>
+                        </pre>
+
+
             </div>
+
+
         {% endfor %}
     </div>
 {% endfor %}
@@ -181,6 +170,42 @@
     document.querySelectorAll('[data-name]').forEach((button) => {
         button.addEventListener('click', showTheme);
     });
+
+    document.querySelectorAll(".json-content").forEach((elt) => {
+        let rawContent = elt.textContent.trim();
+
+        // Remplace les guillemets simples par des guillemets doubles
+        rawContent = rawContent.replace(/'/g, '"');
+
+        try {
+            const parsedJson = JSON.parse(rawContent);
+            elt.textContent = JSON.stringify(parsedJson, null, 2); // Formate le JSON
+        } catch (error) {
+            console.error("Erreur après remplacement des guillemets :", rawContent, error);
+        }
+    });
+    document.querySelectorAll("pre").forEach((pre) => {
+
+        let types = [
+            ["int", "intColor"],
+            ["boolean", "booleanColor"],
+            ["string", "stringColor"],
+            ["url", "urlColor"],
+            ["NOT NULL", "notnullColor"],
+            ["NULL", "notnullColor"],
+            ["datetime", "datetimeColor"],
+        ]
+
+        let res = pre.innerHTML
+        types.forEach((type) => {
+            res = res.replaceAll(type[0], `<span class='${type[1]}'>${type[0]}</span>`)
+        })
+
+
+
+
+        pre.innerHTML = res
+    })
 
 </script>
 </div>

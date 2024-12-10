@@ -119,6 +119,35 @@ h2 {
     color: grey;
 }
 
+/*===============COLOR CLASS=============*/
+.intColor, .booleanColor, .datetimeColor ,.stringColor, .urlColor, .labelColor {
+    font-weight: 800;
+}
+
+.intColor {
+    color: #8181ff;
+}
+
+.booleanColor {
+    color: #ff8181;
+}
+
+.stringColor {
+    color: #399d00;
+}
+
+.urlColor {
+    color: #a2ff6b;
+}.notnullColor {
+     color: #8b8b8b;
+}
+ .labelColor {
+     color: #95d7f9;
+ }
+.datetimeColor{
+    color: orangered;
+}
+
 /*=========== ===============*/
 
 [class^="section1"] {
@@ -150,7 +179,7 @@ h2 {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
+cursor: pointer;
 
     gap: 13px;
 
@@ -179,9 +208,44 @@ h2 {
     flex-wrap: wrap;
     justify-content: space-around;
 
+    width: 100%;
+
 }
+[class^="section2"] pre{
+
+    border: 1px solid #dfdfdf;
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 40px 24px;
+}
+[class^="section2"] pre .json{
+
+    position: absolute;
+    top: 8%;
+    right: 2%;
+    color: grey;
+}
+
 [class^="routeSection2"]{
     display: flex;
     flex-direction: column;
     width: 43%;
+
+    margin-bottom:80px;
+}
+
+
+
+[class^="routeSection2"] > .header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+[class^="routeSection2"]  .type{
+width: fit-content;
+
+    padding: 5px 12px;
+    border-radius: 7px;
 }
