@@ -1,9 +1,11 @@
+from django.conf.urls.static import static
 from django.urls import path
 
 from api.view import get_user, get_all_users, get_profile, create_response, delete_response, \
     to_downvote_response, to_upvote_response, follow_user, get_field_of_user, get_field_of_current_user
 from api.view.question import create_question, get_question, get_questions
 from api.view.theme import create_theme, get_themes, get_theme, add_question_to_theme
+from coding import settings
 
 urlpatterns = [
     # ======================= USER
@@ -36,4 +38,4 @@ urlpatterns = [
     path('downvote/<int:response_id>', to_downvote_response, name='to_downvote_response'),
 
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
