@@ -80,7 +80,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 CORS_ALLOWED_ORIGINS = [
-    "*",
+
 ]
 ROOT_URLCONF = 'coding.urls'
 
