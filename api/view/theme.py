@@ -64,11 +64,9 @@ def create_theme(request):
 
     data = request.data.copy()
     data['author'] = user.id
-    print(data)
     serializer = ThemeDetailSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
     question = serializer.save()
-    print(question)
     return Response({'message': 'ok'})
 
 @api_view(['PATCH'])

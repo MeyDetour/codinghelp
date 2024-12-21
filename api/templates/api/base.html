@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'api/style.css' %}">
 
@@ -202,8 +203,6 @@
         types.forEach((type) => {
             res = res.replaceAll(type[0], `<span class='${type[1]}'>${type[0]}</span>`)
         })
-
-
 
 
         pre.innerHTML = res

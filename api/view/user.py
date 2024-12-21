@@ -76,7 +76,6 @@ def create_user(request):
     serializer = UserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
-    refresh = RefreshToken.for_user(user)
     return Response({"message":"ok"
     }, status=201)
 

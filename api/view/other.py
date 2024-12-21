@@ -14,6 +14,6 @@ def render_doc(request):
         "Question":get_question_routes(),
         "Response":  get_response_routes() ,
         "Vote":get_vote_routes()}
-    print(data)
+
 
     return render(request, 'api/base.html', {"themes":data})

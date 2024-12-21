@@ -13,6 +13,7 @@ body {
 
     overflow-x: hidden;
 
+    font-size: 16px;
 
     font-family: "Nunito", serif;
     font-optical-sizing: auto;
@@ -59,12 +60,19 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+     text-align: center;
 }
+
 
 .blackHeader > div {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 35px;
+
+    width: 80%;
+    justify-content: center;
 }
 
 .blackHeader button {
@@ -77,7 +85,9 @@ body {
     padding: 5px 21px;
     cursor: pointer;
 
-}.blackHeader button:hover {
+}
+
+.blackHeader button:hover {
 
     background: rgba(241, 241, 241, 0.31);
 
@@ -120,7 +130,7 @@ h2 {
 }
 
 /*===============COLOR CLASS=============*/
-.intColor, .booleanColor, .datetimeColor ,.stringColor, .urlColor, .labelColor {
+.intColor, .booleanColor, .datetimeColor, .stringColor, .urlColor, .labelColor {
     font-weight: 800;
 }
 
@@ -138,13 +148,17 @@ h2 {
 
 .urlColor {
     color: #a2ff6b;
-}.notnullColor {
-     color: #8b8b8b;
 }
- .labelColor {
-     color: #95d7f9;
- }
-.datetimeColor{
+
+.notnullColor {
+    color: #8b8b8b;
+}
+
+.labelColor {
+    color: #95d7f9;
+}
+
+.datetimeColor {
     color: orangered;
 }
 
@@ -179,10 +193,11 @@ h2 {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-cursor: pointer;
+    cursor: pointer;
 
     gap: 13px;
 
+    text-align: center;
     font-size: 14px;
 
     box-shadow: 0px 6px 23px 0px #8080802e;
@@ -190,6 +205,7 @@ cursor: pointer;
 
 .routeSection1 .name {
     font-weight: 780;
+
 }
 
 .routeSection1 > div .path {
@@ -202,7 +218,7 @@ cursor: pointer;
 
 }
 
-[class^="section2"]{
+[class^="section2"] {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -211,14 +227,18 @@ cursor: pointer;
     width: 100%;
 
 }
-[class^="section2"] pre{
-position: relative;
+
+[class^="section2"] pre {
+    position: relative;
     border: 1px solid #dfdfdf;
     background: #f1f1f1;
     border-radius: 10px;
     padding: 40px 24px;
+
+    overflow-x: auto;
 }
-[class^="section2"] pre .json{
+
+[class^="section2"] pre .json {
 
     position: absolute;
     top: 8%;
@@ -226,26 +246,75 @@ position: relative;
     color: grey;
 }
 
-[class^="routeSection2"]{
+[class^="routeSection2"] {
     display: flex;
     flex-direction: column;
     width: 43%;
 
-    margin-bottom:80px;
+    margin-bottom: 80px;
 }
 
 
-
-[class^="routeSection2"] > .header{
+[class^="routeSection2"] > .header {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
 }
 
-[class^="routeSection2"]  .type{
-width: fit-content;
+[class^="routeSection2"] .type {
+    width: fit-content;
 
     padding: 5px 12px;
     border-radius: 7px;
 }
+
+
+@media  screen and (max-width: 1100px) {
+    [class^="section1"] {
+        width: 100%;
+    }
+}
+
+@media  screen and (max-width: 850px) {
+    .routeSection1 {
+        width: 28% ;
+    }
+    .blackHeader button{
+
+    font-size: 16px;
+    }
+h1 {
+    font-size: 39px;
+    margin: 0;
+}h2{
+
+    font-size: 27px;
+    margin-top: 0;
+    margin-bottom: 52px;
+ }
+
+[class^="routeSection2"] {
+    width: 70%;
+}
+}
+
+@media  screen and (max-width: 600px) {
+    .routeSection1 {
+        width: 45%
+
+    }
+
+[class^="routeSection2"] {
+    width: 100%;
+}
+}
+
+
+@media  screen and (max-width: 500px) {
+ h1{
+       font-size: 28px;
+ }
+
+}
+

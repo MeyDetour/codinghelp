@@ -39,7 +39,7 @@ def create_response(request):
     # auto add author
     data['author'] = user.id
     data['question'] = question.id
-    print(data)
+
 
     serializer = ResponseSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
