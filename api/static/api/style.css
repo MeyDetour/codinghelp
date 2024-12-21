@@ -299,8 +299,11 @@ h2 {
     }
 
     [class^="routeSection2"] {
-        width: 70%;
+        width: 100%;
     }
+    [class^="section2"] pre {
+    font-size: 14px;
+}
 }
 
 @media screen and (max-width: 600px) {
@@ -312,15 +315,18 @@ h2 {
     [class^="routeSection2"] {
         width: 100%;
     }
-h1{
+
+    h1 {
 
         font-size: 26px;
-}
-h2{
+    }
+
+    h2 {
 
         font-size: 22px;
 
-}
+    }
+
     .blackHeader {
 
         height: 36vh;
@@ -330,10 +336,35 @@ h2{
 
         gap: 17px;
     }
+
+    .blackHeader button {
+
+        padding: 5px 12px;
+    }
 }
 
 
 @media screen and (max-width: 500px) {
 
+
+    [class^="section1"] {
+        gap: 14px;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .routeSection1 {
+        width: 100%;
+    }
+
+[class^="section2"] pre {
+    font-size: 12px;
+}
 }
 
