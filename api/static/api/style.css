@@ -61,7 +61,7 @@ body {
     align-items: center;
     justify-content: center;
 
-     text-align: center;
+    text-align: center;
 }
 
 
@@ -270,51 +270,70 @@ h2 {
 }
 
 
-@media  screen and (max-width: 1100px) {
+@media screen and (max-width: 1100px) {
     [class^="section1"] {
         width: 100%;
     }
 }
 
-@media  screen and (max-width: 850px) {
+@media screen and (max-width: 850px) {
     .routeSection1 {
-        width: 28% ;
+        width: 28%;
     }
-    .blackHeader button{
 
-    font-size: 16px;
+    .blackHeader button {
+
+        font-size: 16px;
     }
-h1 {
-    font-size: 39px;
-    margin: 0;
-}h2{
 
-    font-size: 27px;
-    margin-top: 0;
-    margin-bottom: 52px;
- }
+    h1 {
+        font-size: 39px;
+        margin: 0;
+    }
 
-[class^="routeSection2"] {
-    width: 70%;
+    h2 {
+
+        font-size: 27px;
+        margin-top: 0;
+        margin-bottom: 52px;
+    }
+
+    [class^="routeSection2"] {
+        width: 70%;
+    }
 }
-}
 
-@media  screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .routeSection1 {
         width: 45%
 
     }
 
-[class^="routeSection2"] {
-    width: 100%;
+    [class^="routeSection2"] {
+        width: 100%;
+    }
+h1{
+
+        font-size: 26px;
 }
+h2{
+
+        font-size: 22px;
+
+}
+    .blackHeader {
+
+        height: 36vh;
+    }
+
+    .blackHeader > div {
+
+        gap: 17px;
+    }
 }
 
 
-@media  screen and (max-width: 500px) {
- h1{
-       font-size: 28px;
- }
+@media screen and (max-width: 500px) {
 
 }
 
