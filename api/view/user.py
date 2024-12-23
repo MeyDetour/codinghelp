@@ -19,12 +19,12 @@ def is_authenticate(request):
     # there is one user connected, it return user or none
     jwt_authenticator = JWTAuthentication()
 
+    print("En-têtes reçus :", request.headers)
     try:
         user, token = jwt_authenticator.authenticate(request)
 
     except Exception as e:
         print("Erreur lors de l'authentification :", e)
-        print("En-têtes reçus :", request.headers)
         return None
     # Vérifiez si l'utilisateur est bien authentifié
     if not user:
