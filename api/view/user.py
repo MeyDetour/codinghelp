@@ -24,6 +24,7 @@ def is_authenticate(request):
 
     except Exception as e:
         print("Erreur lors de l'authentification :", e)
+        print("En-têtes reçus :", request.headers)
         return None
     # Vérifiez si l'utilisateur est bien authentifié
     if not user:
