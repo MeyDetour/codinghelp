@@ -27,7 +27,7 @@ body {
 }
 
 .backgroundImage {
-    background-image: url("../bckground.png");
+    background-image: url("bckground.png");
 
     box-sizing: border-box;
 
@@ -51,7 +51,7 @@ body {
 
 
     color: white;
-    background-image: url("../blackBackground.png");
+    background-image: url("blackBackground.png");
 
     background-size: cover;
     border-radius: 20px;
