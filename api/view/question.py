@@ -18,7 +18,7 @@ def create_question(request):
     # create question with question content and associate directly minimum  one theme
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     if not request.data.get('content'):
         return Response({'message': "No content send"})
@@ -50,7 +50,7 @@ def get_questions(request):
     # with one theme, we get all questions of one theme not only all questions
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     themes = Question.objects.all()
     serializer = QuestionSerializer(themes, many=True)
@@ -64,7 +64,7 @@ def get_question(request, id):
     # delete question and all response associated and all vote associated
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"}, status=400)
+        return Response({"message": "error during authentication"}, status=400)
 
     question = get_object_or_404(Question, pk=id)
     if question.author == None:

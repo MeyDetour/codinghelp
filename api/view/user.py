@@ -24,7 +24,7 @@ def is_authenticate(request):
         user, token = jwt_authenticator.authenticate(request)
 
     except Exception as e:
-        print("Erreur lors de l'authentification :", e)
+        print("error during authentication :", e)
         return None
     # Vérifiez si l'utilisateur est bien authentifié
     if not user:
@@ -40,7 +40,7 @@ def get_all_users(request):
     # this request return juste simple informations of user
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     users = User.objects.all()
     users = users.annotate(
@@ -61,7 +61,7 @@ def get_user(request, id):
     # user and its activity
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     user_to_get = get_object_or_404(User, id=id)
 
@@ -92,7 +92,7 @@ def get_profile(request):
     user = is_authenticate(request)
 
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
 
     if request.method == 'GET':
@@ -117,7 +117,7 @@ def get_field_of_user(request,id,field):
     user = is_authenticate(request)
 
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     if field not in ['questions',"followers","followings","responses"]:
         return Response({"message": "search field must be in questions or followers or followings or responses"})
@@ -158,7 +158,7 @@ def get_field_of_current_user(request,field):
     user = is_authenticate(request)
 
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     if field not in ['questions',"followers","followings","responses"]:
         return Response({"message": "search field must be in questions or followers or followings or responses"})
@@ -202,12 +202,27 @@ def follow_user(request,id):
     # we cant follow itself
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
     if user.id == id:
-        return Response({"message": "Vous n'êtes pas autorisé à voir cet utilisateur"}, status=403)
+        return Response({"message": "Unauthorized"}, status=403)
 
     user2 = get_object_or_404(User,pk=id)
     user.following.add(user2)
     user.save()
     return Response({"message": "ok"}, status=200)
 
+
+@api_view(['PATCH'])
+def upload_image(request):
+    user = is_authenticate(request)
+    if not user:
+        return Response({"message": "error during authentication"})
+
+    image =request.FILES.get('image')
+    if not image :
+        return Response({"message": "Please provide an image"})
+
+    user.image = image
+    user.save()
+
+    return Response({"message": "ok"})

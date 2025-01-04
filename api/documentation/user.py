@@ -290,6 +290,14 @@ def get_user_routes():
             "needToken": True,
             "bodyJson": {},
             "responseJson": {}
+        }, {
+            "title": "Upload image",
+            "method": "PATCH",
+            "url": "api/upload/image/to/profile",
+            "description": "You can add your own profile image to custom your profile.You can get image url in your profile data. Create a formdata with file associated to key <image>",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
         }
 
     ]

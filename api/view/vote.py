@@ -11,7 +11,7 @@ def to_upvote_response(request, response_id):
 
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"}, status=400)
+        return Response({"message": "error during authentication"}, status=400)
 
 
 
@@ -51,7 +51,7 @@ def to_upvote_response(request, response_id):
 def to_downvote_response(request, response_id):
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"}, status=400)
+        return Response({"message": "error during authentication"}, status=400)
 
     # assert that response exist
     response = get_object_or_404(ResponseText, pk=response_id)

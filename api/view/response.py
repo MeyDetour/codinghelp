@@ -20,7 +20,7 @@ def create_response(request):
     # we get all responses directly in question
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"})
+        return Response({"message": "error during authentication"})
 
     if not request.data.get('content'):
         return Response({'message': "No content send"})
@@ -55,7 +55,7 @@ def delete_response(request, id):
     # delete response delete also all votes associated
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "Erreur lors de l'authentification"}, status=400)
+        return Response({"message": "error during authentication"}, status=400)
 
     response = get_object_or_404(ResponseText, pk=id)
     if response.author == None:
