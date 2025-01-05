@@ -17,7 +17,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     created_at = serializers.SerializerMethodField()
     class Meta:
         model = Question
-        fields = ['id','created_at','content', 'author','themes','isValidate','responses_count']
+        fields = ['id','created_at','content', "title",'author','themes','isValidate','responses_count']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -37,7 +37,7 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id',"created_at",'content', 'author','themes','isValidate','responses']
+        fields = ['id',"created_at",'content', 'author','themes','isValidate','responses','title']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

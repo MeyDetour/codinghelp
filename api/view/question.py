@@ -20,8 +20,11 @@ def create_question(request):
     if not user:
         return Response({"message": "error during authentication"})
 
+    if not request.data.get('title'):
+        return Response({'message': "No title send"})
+
     if not request.data.get('content'):
-        return Response({'message': "No content send"})
+            return Response({'message': "No content send"})
 
 
     theme_ids = request.data.get('themes', [])
