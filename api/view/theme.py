@@ -62,8 +62,8 @@ def create_theme(request):
     if not request.data.get('name'):
         return Response({"message":"Please enter name"},406)
 
-    existingTheme = Theme.objects.get(name=request.data.get('name'))
-    if existingTheme :
+    existingTheme = Theme.objects.filter(name=request.data.get('name'))
+    if existingTheme.exists() :
         return Response({"message": "Theme with this name already exist"}, 409)
 
     data = request.data.copy()
