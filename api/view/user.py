@@ -40,7 +40,7 @@ def get_all_users(request):
     # this request return juste simple informations of user
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     users = User.objects.all()
     users = users.annotate(
@@ -61,7 +61,7 @@ def get_user(request, id):
     # user and its activity
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     user_to_get = get_object_or_404(User, id=id)
 
@@ -92,7 +92,7 @@ def get_profile(request):
     user = is_authenticate(request)
 
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
 
     if request.method == 'GET':
@@ -117,7 +117,7 @@ def get_field_of_user(request,id,field):
     user = is_authenticate(request)
 
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     if field not in ['questions',"followers","followings","responses"]:
         return Response({"message": "search field must be in questions or followers or followings or responses"})
@@ -158,7 +158,7 @@ def get_field_of_current_user(request,field):
     user = is_authenticate(request)
 
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     if field not in ['questions',"followers","followings","responses"]:
         return Response({"message": "search field must be in questions or followers or followings or responses"})
@@ -202,7 +202,7 @@ def follow_user(request,id):
     # we cant follow itself
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
     if user.id == id:
         return Response({"message": "Unauthorized"}, status=403)
 
@@ -216,7 +216,7 @@ def follow_user(request,id):
 def upload_image(request):
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     image =request.FILES.get('image')
     if not image :

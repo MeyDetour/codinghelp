@@ -13,7 +13,7 @@ def get_themes(request):
 
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     themes = Theme.objects.all()
     serializer = ThemeListSerializer(themes,many=True)
@@ -27,7 +27,7 @@ def get_theme(request,id):
     # delete the theme if the are no questions associated
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     theme = get_object_or_404(Theme,id=id)
     if theme.author == None:
@@ -57,7 +57,7 @@ def create_theme(request):
     #create theme with juste a name
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     if not request.data.get('name'):
         return Response({"message":"Please enter name"},406)
@@ -79,7 +79,7 @@ def add_question_to_theme(request,qutestionId,themeId):
     # here is the function to add one question to one theme
     user = is_authenticate(request)
     if not user:
-        return Response({"message": "error during authentication"})
+        return Response({"message": "error during authentication"},401)
 
     theme = get_object_or_404(Theme, id=themeId)
     question = get_object_or_404(Question, id=qutestionId)
