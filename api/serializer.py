@@ -15,10 +15,17 @@ class QuestionSerializer(serializers.ModelSerializer):
     themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
     responses_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
+    contributor_count = serializers.SerializerMethodField()
     class Meta:
         model = Question
-        fields = ['id','created_at','content', "title",'author','themes','isValidate','responses_count']
+        fields = ['id','created_at','content', "title",'author','themes','isValidate','responses_count','contributor_count']
 
+    def get_contributor_count(self, obj):
+         # get all authors of responsens
+        answerers = obj.responses.values_list('author', flat=True).distinct()
+
+        #  add 1 to count the asker
+        return len(answerers)+1
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
