@@ -26,6 +26,9 @@ def create_question(request):
     if not request.data.get('content'):
             return Response({'message': "No content send"})
 
+    existingQuestion = Question.objects.filter(title=request.data.get('title'))
+    if existingQuestion.exists():
+        return Response({"message": "Question with this title already exist"}, 409)
 
     theme_ids = request.data.get('themes', [])
     if not isinstance(theme_ids, list) or not theme_ids:
