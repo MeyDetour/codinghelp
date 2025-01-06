@@ -60,7 +60,7 @@ def create_theme(request):
         return Response({"message": "error during authentication"})
 
     if not request.data.get('name'):
-        return Response({"message":"Please enter name"})
+        return Response({"message":"Please enter name"},406)
 
     data = request.data.copy()
     data['author'] = user.id
