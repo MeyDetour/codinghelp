@@ -6,13 +6,14 @@ def get_question_routes():
             "url": "api/question/new",
             "description": "Create a new question with the provided question content and directly associate it with at least one theme.",
             "needToken": True,
-            "bodyJson": {
+            "bodyJson": {"title": "string (NOT NULL)",
                 "content": "string (NOT NULL)",
                 "themes": ["int (NOT NULL)"]
             },
             "responseJson": {
                 "id": "int (AI) (NOT NULL)",
                 "created_at": "d.m.Y",
+                "title": "string (NOT NULL)",
                 "content": "string (NOT NULL)",
                 "author": "int (NOT NULL)",
                 "themes": [
@@ -30,6 +31,7 @@ def get_question_routes():
             "needToken": True,
             "bodyJson": {},
             "responseJson": {
+                "title": "string (NOT NULL)",
                 "id": "int (AI) (NOT NULL)",
                 "created_at": "d.m.Y",
                 "content": "string (NOT NULL)",
@@ -62,6 +64,7 @@ def get_question_routes():
             "responseJson": [{
                 "id": "int (NOT NULL)",
                 "created_at": "d.m.Y",
+                "title": "string (NOT NULL)",
                 "content": "string (NOT NULL)",
                 "author": "int (NOT NULL)",
                 "themes": [
@@ -80,11 +83,13 @@ def get_question_routes():
             "needToken": True,
             "bodyJson": {
                 "content": "string (NOT NULL)",
-                "themes": ["int (NOT NULL)"]
+                "themes": ["int (NOT NULL)"],
+                "title": "string (NOT NULL)",
             },
             "responseJson": {
                 "id": "int (NOT NULL)",
                 "created_at": "d.m.Y",
+                "title": "string (NOT NULL)",
                 "content": "string (NOT NULL)",
                 "author": "int (NOT NULL)",
                 "themes": [
