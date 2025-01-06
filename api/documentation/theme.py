@@ -77,7 +77,10 @@ def get_theme_routes():
                 "name": "string (NOT NULL)"
             },
             "responseJson": {
-                "message": "ok"
+                "id": "int (AI) (NOT NULL)",
+                "name": "string (NOT NULL)",
+                "author": "int (NOT NULL)",
+
             }
         }
 

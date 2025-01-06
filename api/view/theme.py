@@ -66,8 +66,8 @@ def create_theme(request):
     data['author'] = user.id
     serializer = ThemeDetailSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
-    question = serializer.save()
-    return Response({'message': 'ok'})
+    theme = serializer.save()
+    return Response(ThemeListSerializer(theme).data)
 
 @api_view(['PATCH'])
 def add_question_to_theme(request,qutestionId,themeId):
