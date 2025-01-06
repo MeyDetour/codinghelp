@@ -68,6 +68,7 @@ def create_theme(request):
 
     data = request.data.copy()
     data['author'] = user.id
+    data["name"] = data["name"].capitalize()
     serializer = ThemeDetailSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
     theme = serializer.save()
