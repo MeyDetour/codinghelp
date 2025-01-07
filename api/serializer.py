@@ -43,9 +43,6 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
     created_at = serializers.SerializerMethodField()
     contributor_count = serializers.SerializerMethodField()
 
-    def get_contributor_count(self, obj):
-        # get all authors of responsens
-        answerers = obj.responses.values_list('author', flat=True).distinct()
 
     class Meta:
         model = Question
@@ -55,6 +52,10 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
         return data
+
+    def get_contributor_count(self, obj):
+        # get all authors of responsens
+        answerers = obj.responses.values_list('author', flat=True).distinct()
 
     def get_responses(self, obj):
         responses = obj.responses.all()  # Utilisation du related_name défini dans Response
