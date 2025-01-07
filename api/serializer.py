@@ -153,10 +153,15 @@ class ThemeListSerializer(serializers.ModelSerializer):
 
 
 class UserSerializerWithoutDetail(serializers.ModelSerializer):
+    created_at = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['username','id', "image"]
+        fields = ['username','id', "image","created_at"]
 
+    def get_created_at(self, obj):
+        if obj.created_at:
+            return obj.created_at.strftime(representation_of_time)  # Exemple : '09/12/2024'
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -167,10 +172,11 @@ class UserSerializer(serializers.ModelSerializer):
     followers_count = serializers.SerializerMethodField()
     followings_count = serializers.SerializerMethodField()
 
+    created_at = serializers.SerializerMethodField()
 
     class Meta:
             model = User
-            fields = ['password','id',"last_login","is_superuser","email" ,"username","questions_count","themes_count","votes_count","responses_count","followers_count","followings_count","image"]
+            fields = ['password','id',"last_login","is_superuser","email" ,"username","questions_count","themes_count","votes_count","responses_count","followers_count","followings_count","image","created_at"]
             extra_kwargs={
                 "password":{'write_only':True,"required":False},
                 "email":{'required':False},
@@ -198,6 +204,10 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username', instance.username)
         instance.save()
         return instance
+
+    def get_created_at(self, obj):
+        if obj.created_at:
+            return obj.created_at.strftime(representation_of_time)  # Exemple : '09/12/2024'
 
     def get_questions_count(self, obj):
         return obj.questions.count()

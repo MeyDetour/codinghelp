@@ -24,6 +24,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     image = models.ImageField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     followings = models.ManyToManyField(
         'self',
         symmetrical=False,
