@@ -21,10 +21,10 @@ def create_question(request):
         return Response({"message": "error during authentication"},401)
 
     if not request.data.get('title'):
-        return Response({'message': "No title send"})
+        return Response({'message': "No title send"},406)
 
     if not request.data.get('content'):
-            return Response({'message': "No content send"})
+            return Response({'message': "No content send"},406)
 
     existingQuestion = Question.objects.filter(title=request.data.get('title'))
     if existingQuestion.exists():
@@ -76,7 +76,7 @@ def get_question(request, id):
     if question.author == None:
         question.delete()
 
-        return Response({"message": "Question deleted"})
+        return Response({"message": "Question deleted"},400)
 
     if request.method == 'GET':
         return Response(QuestionDetailsSerializer(question).data)

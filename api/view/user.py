@@ -75,6 +75,16 @@ def create_user(request):
 
     #create account with email username and password
     serializer = UserSerializer(data=request.data)
+    if not request.data.get('email'):
+        return Response({'message': "No email send"},406)
+
+    userExist = User.objects.filter(email=request.data.get('email')).exists()
+    if userExist:
+        return Response({'message': "User with this email already exists"}, 409)
+
+    if not request.data.get('password'):
+        return Response({'message': "No password send"},406)
+
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
     return Response({"message":"ok"
@@ -120,7 +130,7 @@ def get_field_of_user(request,id,field):
         return Response({"message": "error during authentication"},401)
 
     if field not in ['questions',"followers","followings","responses"]:
-        return Response({"message": "search field must be in questions or followers or followings or responses"})
+        return Response({"message": "search field must be in questions or followers or followings or responses"},406)
     user_to_get = get_object_or_404(User, id=id)
 
     if field == 'questions':
