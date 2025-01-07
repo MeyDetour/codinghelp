@@ -24,7 +24,7 @@ class QuestionSerializer(serializers.ModelSerializer):
          # get all authors of responsens
         answerers = obj.responses.values_list('author', flat=True).distinct()
 
-        #  add 1 to count the asker
+
         return len(answerers)+1
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -57,6 +57,7 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
         # get all authors of responsens
         answerers = obj.responses.values_list('author', flat=True).distinct()
 
+        return len(answerers)+1
     def get_responses(self, obj):
         responses = obj.responses.all()  # Utilisation du related_name défini dans Response
         return ResponseSerializer(responses, many=True).data
