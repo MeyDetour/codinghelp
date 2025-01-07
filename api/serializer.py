@@ -42,7 +42,7 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
     responses = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     contributor_count = serializers.SerializerMethodField()
-
+    author = serializers.SerializerMethodField()
 
     class Meta:
         model = Question
@@ -65,6 +65,10 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
         if obj.created_at:
             return obj.created_at.strftime(representation_of_time)  # Exemple : '09/12/2024'
         return None
+    def get_author(self,obj):
+        author = obj.author  # Utilisation du related_name défini dans Response
+        return UserSerializerWithoutDetail(author).data
+
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
