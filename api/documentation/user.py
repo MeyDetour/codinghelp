@@ -54,9 +54,7 @@ def get_user_routes():
             "responseJson": [
                 {
                     "image":"string (NULL)",
-                    "first_name": "string (NULL)",
-                    "last_name": "string (NULL)",
-                    "id": "int (NOT NULL)",
+                      "id": "int (NOT NULL)",
                     "last_login": "datetime (NULL)",
                     "is_superuser": "boolean (NOT NULL)",
                     "email": "string (NOT NULL)",
@@ -81,9 +79,7 @@ def get_user_routes():
             "bodyJson": {},
             "responseJson": {
                     "image":"string (NULL)",
-                "first_name": "string (NULL)",
-                "last_name": "string (NULL)",
-                "id": "int (NOT NULL)",
+                 "id": "int (NOT NULL)",
                 "last_login": "datetime (NULL)",
                 "is_superuser": "boolean (NOT NULL)",
                 "email": "string (NOT NULL)",
@@ -148,9 +144,7 @@ def get_user_routes():
             "responseJson": [
                 {
                     "image":"string (NULL)",
-                    "first_name": "string (NOT NULL)",
-                    "last_name": "string (NOT NULL)",
-                    "id": "int (NOT NULL)",
+                   "id": "int (NOT NULL)",
                     "last_login": "string",
                     "is_superuser": "boolean (NOT NULL)",
                     "email": "string (NOT NULL)",
@@ -175,9 +169,7 @@ def get_user_routes():
             "bodyJson": {},
             "responseJson": {
                     "image":"string (NULL)",
-                "first_name": "string (NULL)",
-                "last_name": "string (NULL)",
-                "id": "int (NOT NULL)",
+              "id": "int (NOT NULL)",
                 "last_login": "datetime (NULL)",
                 "is_superuser": "boolean (NOT NULL)",
                 "email": "string (NOT NULL)",
@@ -241,9 +233,7 @@ def get_user_routes():
             "responseJson": [
                 {
                     "image":"string (NULL)",
-                    "first_name": "string (NOT NULL)",
-                    "last_name": "string (NOT NULL)",
-                    "id": "int (NOT NULL)",
+                      "id": "int (NOT NULL)",
                     "last_login": "string",
                     "is_superuser": "boolean (NOT NULL)",
                     "email": "string (NOT NULL)",
@@ -267,13 +257,9 @@ def get_user_routes():
             "needToken": True,
             "bodyJson": {
                 "username": "string (NOT NULL)",
-                "first_name": "string (NOT NULL)",
-                "last_name": "string (NOT NULL)"
             },
             "responseJson": {
                     "image":"string (NULL)",
-                "first_name": "string (NOT NULL)",
-                "last_name": "string (NOT NULL)",
                 "id": "int (NOT NULL)",
                 "last_login": "string",
                 "is_superuser": "boolean (NOT NULL)",
