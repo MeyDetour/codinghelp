@@ -98,7 +98,7 @@ def get_user_routes():
         }
         ,
         {
-            "title": "Get detail of one user",
+            "title": "Get questions of one user",
             "method": "GET",
             "url": "api/user/{id}/questions",
             "description": "Fetches all questions of a specific user. You can also get the user's responses, followers, and followings by replacing 'questions' with 'responses', 'followers', or 'followings' in the URL.",
@@ -118,7 +118,7 @@ def get_user_routes():
                 }
             ]
         }, {
-            "title": "Get detail of one user",
+            "title": "Get responses of one user",
             "method": "GET",
             "url": "api/user/{id}/responses",
             "description": "Fetches all responses of a specific user. You can also get the user's questions, followers, and followings by replacing 'responses' with 'questions', 'followers', or 'followings' in the URL.",
@@ -137,7 +137,7 @@ def get_user_routes():
             ]
         },
         {
-            "title": "Get detail of one user",
+            "title": "Get followers or followings of one user",
             "method": "GET",
             "url": "api/user/{id}/{followers or followings}",
             "description": "Fetches all followers of a specific user. You can also get the user's questions, responses, and followings by replacing 'followers' with 'questions', 'responses', or 'followings' in the URL.",
