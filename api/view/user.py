@@ -78,9 +78,15 @@ def create_user(request):
     if not request.data.get('email'):
         return Response({'message': "No email send"},406)
 
+    if not request.data.get('username'):
+        return Response({'message': "No username send"},406)
+
     userExist = User.objects.filter(email=request.data.get('email')).exists()
+    userExist2 = User.objects.filter(username=request.data.get('username')).exists()
     if userExist:
         return Response({'message': "User with this email already exists"}, 409)
+    if userExist2:
+            return Response({'message': "User with this username already exists"}, 409)
 
     if not request.data.get('password'):
         return Response({'message': "No password send"},406)
