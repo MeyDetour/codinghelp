@@ -45,7 +45,12 @@ def get_question_routes():
                         "id": "int (AI) (NOT NULL)",
                         "created_at": "d.m.Y",
                         "content": "string (NOT NULL)",
-                        "author": "int (NOT NULL)",
+                        "author": {
+
+                            "image": "string (NULL)",
+                            "username": "string (NOT NULL)",
+                            "id": "int (AI) (NOT NULL)",
+                        },
                         "upvote_count": "int (NOT NULL)",
                         "downvote_count": "int (NOT NULL)",
                         "question": "int (NOT NULL)"

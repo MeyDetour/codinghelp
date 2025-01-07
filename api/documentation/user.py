@@ -53,6 +53,7 @@ def get_user_routes():
             "bodyJson": {},
             "responseJson": [
                 {
+                    "image":"string (NULL)",
                     "first_name": "string (NULL)",
                     "last_name": "string (NULL)",
                     "id": "int (NOT NULL)",
@@ -79,6 +80,7 @@ def get_user_routes():
             "needToken": True,
             "bodyJson": {},
             "responseJson": {
+                    "image":"string (NULL)",
                 "first_name": "string (NULL)",
                 "last_name": "string (NULL)",
                 "id": "int (NOT NULL)",
@@ -145,6 +147,7 @@ def get_user_routes():
             "bodyJson": {},
             "responseJson": [
                 {
+                    "image":"string (NULL)",
                     "first_name": "string (NOT NULL)",
                     "last_name": "string (NOT NULL)",
                     "id": "int (NOT NULL)",
@@ -171,6 +174,7 @@ def get_user_routes():
             "needToken": True,
             "bodyJson": {},
             "responseJson": {
+                    "image":"string (NULL)",
                 "first_name": "string (NULL)",
                 "last_name": "string (NULL)",
                 "id": "int (NOT NULL)",
@@ -236,6 +240,7 @@ def get_user_routes():
             "bodyJson": {},
             "responseJson": [
                 {
+                    "image":"string (NULL)",
                     "first_name": "string (NOT NULL)",
                     "last_name": "string (NOT NULL)",
                     "id": "int (NOT NULL)",
@@ -266,6 +271,7 @@ def get_user_routes():
                 "last_name": "string (NOT NULL)"
             },
             "responseJson": {
+                    "image":"string (NULL)",
                 "first_name": "string (NOT NULL)",
                 "last_name": "string (NOT NULL)",
                 "id": "int (NOT NULL)",
