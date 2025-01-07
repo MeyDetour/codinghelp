@@ -41,10 +41,15 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
     themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
     responses = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
+    contributor_count = serializers.SerializerMethodField()
+
+    def get_contributor_count(self, obj):
+        # get all authors of responsens
+        answerers = obj.responses.values_list('author', flat=True).distinct()
 
     class Meta:
         model = Question
-        fields = ['id',"created_at",'content', 'author','themes','isValidate','responses','title']
+        fields = ['id',"created_at",'content', 'author','themes','isValidate','responses','title',"contributor_count"]
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
