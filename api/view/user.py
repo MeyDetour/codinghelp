@@ -110,10 +110,11 @@ def create_user(request):
         html_message = render_to_string('api/mail.html', context)
         plain_message = strip_tags(html_message)
         send_mail(
-            subject="You just create account - CodingHelp !",
+            subject="You just create account - Codinghelp !",
             message=plain_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
+            html_message=html_message,
             fail_silently=False,
         )
 
