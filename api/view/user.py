@@ -9,7 +9,10 @@ from rest_framework.response import Response
 import jwt, datetime
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 from api.models import User
 from api.serializer import UserSerializer, QuestionSerializer, ResponseSerializer
 
@@ -75,14 +78,16 @@ def create_user(request):
 
     #create account with email username and password
     serializer = UserSerializer(data=request.data)
-    if not request.data.get('email'):
+    email = request.data.get('email')
+    if not  email:
         return Response({'message': "No email send"},406)
 
-    if not request.data.get('username'):
+    username =request.data.get('username')
+    if not username :
         return Response({'message': "No username send"},406)
 
-    userExist = User.objects.filter(email=request.data.get('email')).exists()
-    userExist2 = User.objects.filter(username=request.data.get('username')).exists()
+    userExist = User.objects.filter(email=email).exists()
+    userExist2 = User.objects.filter(username=username).exists()
     if userExist:
         return Response({'message': "User with this email already exists"}, 409)
     if userExist2:
@@ -92,9 +97,29 @@ def create_user(request):
         return Response({'message': "No password send"},406)
 
     serializer.is_valid(raise_exception=True)
-    user = serializer.save()
+
+
+
+    # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
+    context = {
+        "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme."
+
+    }
+    html_message = render_to_string('api/mail.html', context)
+    plain_message = strip_tags(html_message)
+    send_mail(
+        subject="Welcome in CodingHelp !",
+        message=plain_message,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[email],
+        html_message=html_message,
+        fail_silently=False,
+    )
+
+    serializer.save()
     return Response({"message":"ok"
     }, status=201)
+
 
 
 @api_view(['GET','PUT','DELETE'])
