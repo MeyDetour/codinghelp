@@ -98,24 +98,25 @@ def create_user(request):
 
     serializer.is_valid(raise_exception=True)
 
+    try:
+        # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
+        context = {
+            "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme."
 
+        }
+        html_message = render_to_string('api/mail.html', context)
+        plain_message = strip_tags(html_message)
+        send_mail(
+            subject="Welcome in CodingHelp !",
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
+            html_message=html_message,
+            fail_silently=False,
+        )
 
-    # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
-    context = {
-        "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme."
-
-    }
-    html_message = render_to_string('api/mail.html', context)
-    plain_message = strip_tags(html_message)
-    send_mail(
-        subject="Welcome in CodingHelp !",
-        message=plain_message,
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[email],
-        html_message=html_message,
-        fail_silently=False,
-    )
-
+    except Exception as e:
+        print(f"Erreur lors de l'envoi de l'e-mail : {e}")
     serializer.save()
     return Response({"message":"ok"
     }, status=201)
