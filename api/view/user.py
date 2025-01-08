@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
-from premailer import transform
 from pycparser.ply.yacc import token
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -110,13 +109,11 @@ def create_user(request):
         }
         html_message = render_to_string('api/mail.html', context)
         plain_message = strip_tags(html_message)
-        inline_html = transform(html_message)
         send_mail(
             subject="You just create account - CodingHelp !",
             message=plain_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
-            html_message=inline_html,
             fail_silently=False,
         )
 
