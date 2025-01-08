@@ -121,7 +121,7 @@ def create_user(request):
     except Exception as e:
         logger.error(f"Erreur lors de l'envoi de l'e-mail : {e}")
 
-        return Response({"message": "Error during email sending"}, 500)
+        return Response({"message": "Error during email sending" +e}, 500)
 
     return Response({"message":"ok"
     }, status=201)
