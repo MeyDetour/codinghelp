@@ -100,6 +100,8 @@ def create_user(request):
     import logging
     logger = logging.getLogger(__name__)
     try:
+
+        user =    serializer.save()
         # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
         context = {
             "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme."
@@ -118,7 +120,9 @@ def create_user(request):
 
     except Exception as e:
         logger.error(f"Erreur lors de l'envoi de l'e-mail : {e}")
-    serializer.save()
+
+        return Response({"message": "Error during email sending"}, 500)
+
     return Response({"message":"ok"
     }, status=201)
 
