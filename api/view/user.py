@@ -156,7 +156,6 @@ def get_profile(request):
     if request.method == 'DELETE':
 
         user.delete()
-
         return Response({"message":"ok"}, status=200)
 
 @api_view(['GET'])
