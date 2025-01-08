@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
+from premailer import transform
 from pycparser.ply.yacc import token
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -101,20 +102,21 @@ def create_user(request):
     logger = logging.getLogger(__name__)
     try:
 
-        user =    serializer.save()
+        # user =    serializer.save()
         # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
         context = {
-            "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme."
-
+            "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme.",
+            "subject":"Welcome in CodingHelp !",
         }
         html_message = render_to_string('api/mail.html', context)
         plain_message = strip_tags(html_message)
+        inline_html = transform(html_message)
         send_mail(
-            subject="Welcome in CodingHelp !",
+            subject="You just create account - CodingHelp !",
             message=plain_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
-            html_message=html_message,
+            html_message=inline_html,
             fail_silently=False,
         )
 
