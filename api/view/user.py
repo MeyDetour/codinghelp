@@ -102,7 +102,7 @@ def create_user(request):
     logger = logging.getLogger(__name__)
     try:
 
-        # user =    serializer.save()
+        user =    serializer.save()
         # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
         context = {
             "message": f"Bonjour {username},\n\nMerci de vous être inscrit sur notre plateforme.",
