@@ -97,7 +97,8 @@ def create_user(request):
         return Response({'message': "No password send"},406)
 
     serializer.is_valid(raise_exception=True)
-
+    import logging
+    logger = logging.getLogger(__name__)
     try:
         # https://medium.com/@arifcse21/send-and-email-with-html-template-and-context-data-from-a-django-project-e9606644185c
         context = {
@@ -116,7 +117,7 @@ def create_user(request):
         )
 
     except Exception as e:
-        print(f"Erreur lors de l'envoi de l'e-mail : {e}")
+        logger.error(f"Erreur lors de l'envoi de l'e-mail : {e}")
     serializer.save()
     return Response({"message":"ok"
     }, status=201)
