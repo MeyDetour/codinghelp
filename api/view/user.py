@@ -211,7 +211,7 @@ def get_field_of_current_user(request,field):
 
     if field == 'questions':
         serializer =  QuestionSerializer(user.questions.all(), many=True)
-    elif field == 'followers':
+    elif field == 'followings':
         users = user.followings.annotate(
             questions_count=Count('questions'),
             responses_count=Count('responses'),
@@ -223,7 +223,7 @@ def get_field_of_current_user(request,field):
         serializer = UserSerializer(users, many=True)
 
 
-    elif field == 'followings':
+    elif field == 'followers':
         users = user.followers.annotate(
             questions_count=Count('questions'),
             responses_count=Count('responses'),
