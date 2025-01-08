@@ -297,6 +297,22 @@ def get_user_routes():
             "needToken": True,
             "bodyJson": {},
             "responseJson": {}
+        }, {
+            "title": "Follow user",
+            "method": "PATCH",
+            "url": "api/follow/user/<int:id>",
+            "description": "You can follow user and he will appear in your followings list and you will appear in his followers list",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
+        }, {
+            "title": "Unfollow user",
+            "method": "PATCH",
+            "url": "api/unfollow/user/<int:id>",
+            "description": "You can unfollow user and he will disappear in your followings list and you will disappear in his followers list",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
         }
 
     ]

@@ -256,6 +256,19 @@ def follow_user(request,id):
     user.following.add(user2)
     user.save()
     return Response({"message": "ok"}, status=200)
+@api_view(['PATCH'])
+def unfollow_user(request,id):
+
+    user = is_authenticate(request)
+    if not user:
+        return Response({"message": "error during authentication"},401)
+    if user.id == id:
+        return Response({"message": "Unauthorized"}, status=403)
+
+    user2 = get_object_or_404(User,pk=id)
+    user.following.remove(user2)
+    user.save()
+    return Response({"message": "ok"}, status=200)
 
 
 @api_view(['PATCH'])

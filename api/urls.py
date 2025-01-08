@@ -2,7 +2,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from api.view import get_user, get_all_users, get_profile, create_response, delete_response, \
-    to_downvote_response, to_upvote_response, follow_user, get_field_of_user, get_field_of_current_user , upload_image
+    to_downvote_response, to_upvote_response, follow_user, get_field_of_user, get_field_of_current_user , upload_image,unfollow_user
 from api.view.question import create_question, get_question, get_questions
 from api.view.theme import create_theme, get_themes, get_theme, add_question_to_theme
 from coding import settings
@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile/<str:field>', get_field_of_current_user, name='get_field_of_current_user'),
     path('profile', get_profile, name="profile"),
     path('follow/user/<int:id>', follow_user, name="follow_user"),
+    path('unfollow/user/<int:id>', unfollow_user, name="unfollow_user"),
     path('upload/image/to/profile', upload_image, name="image_upload"),
 
     # ======================= THEMES
