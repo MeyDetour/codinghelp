@@ -85,8 +85,7 @@ class ResponseSerializer(serializers.ModelSerializer):
     upvote_count = serializers.SerializerMethodField()
     downvote_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
-    question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
-    author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+    author = serializers.SerializerMethodField()
     class Meta:
         model = ResponseText
         fields = ['id','created_at', 'content', 'author', 'upvote_count','downvote_count',"question"]
