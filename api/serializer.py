@@ -102,6 +102,10 @@ class ResponseSerializer(serializers.ModelSerializer):
             return obj.created_at.strftime(representation_of_time)  # Exemple : '09/12/2024'
         return None
 
+    def get_author(self, obj):
+        author = obj.author  # Utilisation du related_name défini dans Response
+        return UserSerializerWithoutDetail(author).data
+
 
 class ThemeDetailSerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField()
