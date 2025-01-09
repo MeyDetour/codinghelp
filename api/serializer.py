@@ -88,9 +88,10 @@ class ResponseSerializer(serializers.ModelSerializer):
     question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
     author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
     author_data = serializers.SerializerMethodField()
+    question_data = serializers.SerializerMethodField()
     class Meta:
         model = ResponseText
-        fields = ['id','created_at', 'content', 'author', 'author_data', 'upvote_count','downvote_count',"question"]
+        fields = ['id','created_at', 'content', 'author', 'author_data', 'upvote_count','downvote_count',"question","question_data"]
 
     def get_upvote_count(self, obj):
         return obj.votes.filter(type="upvote").count()
@@ -106,6 +107,9 @@ class ResponseSerializer(serializers.ModelSerializer):
     def get_author_data(self, obj):
         author = obj.author  # Utilisation du related_name défini dans Response
         return UserSerializerWithoutDetail(author).data
+    def get_question_data(self, obj):
+            question = obj.question  # Utilisation du related_name défini dans Response
+            return QuestionSerializer(question).data
 
 
 class ThemeDetailSerializer(serializers.ModelSerializer):
