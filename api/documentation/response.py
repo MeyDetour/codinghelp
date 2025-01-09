@@ -1,7 +1,14 @@
-
-
 def get_response_routes():
-    return   [
+    return [
+         {
+            "title": "Get response ",
+            "method": "GET",
+            "url": "api/question/{id}",
+            "description": "You can get one response and get all responses of one question in the same request of 'get question'.",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
+        },
         {
             "title": "Create response",
             "method": "POST",
@@ -21,16 +28,23 @@ def get_response_routes():
                 "downvote_count": "int",
                 "question": "int (NOT NULL)"
             }
+        }, {
+            "title": "Edit response",
+            "method": "NONE",
+            "url": "no path",
+            "description": "You can't edit response. It's my choice",
+            "needToken": True,
+            "bodyJson": {   },
+            "responseJson": {   }
         }
-        ,{
-    "title": "Delete response",
-    "method": "DELETE",
-    "url": "api/response/{id}",
-    "description": "Deletes a response and all associated votes.",
-    "needToken": True,
-    "bodyJson": {},
-    "responseJson": {}
-}
+        , {
+            "title": "Delete response",
+            "method": "DELETE",
+            "url": "api/response/{id}",
+            "description": "Deletes a response and all associated votes.",
+            "needToken": True,
+            "bodyJson": {},
+            "responseJson": {}
+        }
 
-]
-
+    ]
