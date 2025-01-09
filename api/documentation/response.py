@@ -2,7 +2,7 @@ def get_response_routes():
     return [
          {
             "title": "Get response ",
-            "method": "GET",
+            "method": "NONE",
             "url": "api/question/{id}",
             "description": "You can get one response and get all responses of one question in the same request of 'get question'.",
             "needToken": True,
