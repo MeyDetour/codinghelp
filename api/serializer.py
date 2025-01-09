@@ -85,10 +85,12 @@ class ResponseSerializer(serializers.ModelSerializer):
     upvote_count = serializers.SerializerMethodField()
     downvote_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
-    author = serializers.SerializerMethodField()
+    question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
+    author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+    author_data = serializers.SerializerMethodField()
     class Meta:
         model = ResponseText
-        fields = ['id','created_at', 'content', 'author', 'upvote_count','downvote_count',"question"]
+        fields = ['id','created_at', 'content', 'author', 'author_data', 'upvote_count','downvote_count',"question"]
 
     def get_upvote_count(self, obj):
         return obj.votes.filter(type="upvote").count()
@@ -101,7 +103,7 @@ class ResponseSerializer(serializers.ModelSerializer):
             return obj.created_at.strftime(representation_of_time)  # Exemple : '09/12/2024'
         return None
 
-    def get_author(self, obj):
+    def get_author_data(self, obj):
         author = obj.author  # Utilisation du related_name défini dans Response
         return UserSerializerWithoutDetail(author).data
 
