@@ -18,13 +18,11 @@ class QuestionSerializer(serializers.ModelSerializer):
     contributor_count = serializers.SerializerMethodField()
     class Meta:
         model = Question
-        fields = ['id','created_at','content', "title",'author','themes','isValidate','responses_count','contributor_count']
+        fields = ['id','created_at', "title",'author','themes','isValidate','responses_count','contributor_count']
 
     def get_contributor_count(self, obj):
          # get all authors of responsens
         answerers = obj.responses.values_list('author', flat=True).distinct()
-
-
         return len(answerers)+1
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -46,7 +44,7 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id',"created_at",'content', 'author','themes','isValidate','responses','title',"contributor_count"]
+        fields = ['id',"created_at",'content','contentHTML', 'author','themes','isValidate','responses','title',"contributor_count"]
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

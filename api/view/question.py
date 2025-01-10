@@ -25,6 +25,8 @@ def create_question(request):
 
     if not request.data.get('content'):
             return Response({'message': "No content send"},406)
+    if not request.data.get('contentHTML'):
+            return Response({'message': "No contentHTML send"},406)
 
     existingQuestion = Question.objects.filter(title=request.data.get('title'))
     if existingQuestion.exists():

@@ -51,6 +51,7 @@ class Theme(models.Model):
 
 class Question(models.Model):
     content = models.TextField()
+    contentHTML = models.TextField()
     title = models.CharField(max_length=200)
     # we want to replace with and "deleted user" instead of delete question
     # we avoid to delete theme in specific function get_question['DELETE']
