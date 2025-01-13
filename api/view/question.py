@@ -47,6 +47,8 @@ def create_question(request):
     serializer = QuestionDetailsSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
     question = serializer.save()
+    question.themes.set(themes)
+
     return Response(QuestionDetailsSerializer(question).data)
 
 

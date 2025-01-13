@@ -36,7 +36,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         return None
 
 class QuestionDetailsSerializer(serializers.ModelSerializer):
-    themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
+    themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())
+
     responses = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     contributor_count = serializers.SerializerMethodField()
@@ -68,8 +69,11 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
         return UserSerializerWithoutDetail(author).data
 
     def create(self, validated_data):
+
+        themes = validated_data.pop('themes', [])
         author = validated_data.pop('author', None)
         question = Question.objects.create(**validated_data)
+        question.themes.set(themes)
         if author:
             question.author = author
             question.save()
