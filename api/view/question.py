@@ -42,11 +42,12 @@ def create_question(request):
 
     data = request.data.copy()
     #auto add author
-    data['author'] = user
 
     serializer = QuestionDetailsSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
     question = serializer.save()
+    question.author=user.id
+    question.save()
     return Response(QuestionDetailsSerializer(question).data)
 
 
