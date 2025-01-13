@@ -43,6 +43,7 @@ def create_question(request):
 
 
     data = request.data.copy()
+    return Response(data)
     #auto add author
     data['author'] = user.id
 
