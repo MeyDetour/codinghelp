@@ -49,7 +49,7 @@ def create_question(request):
     serializer = QuestionSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
     question = serializer.save()
-    return Response(QuestionSerializer(question).data)
+    return Response(QuestionDetailsSerializer(question).data)
 
 
 @api_view(['GET'])
