@@ -67,6 +67,13 @@ class QuestionDetailsSerializer(serializers.ModelSerializer):
         author = obj.author  # Utilisation du related_name défini dans Response
         return UserSerializerWithoutDetail(author).data
 
+    def create(self, validated_data):
+        author = validated_data.pop('author', None)
+        question = Question.objects.create(**validated_data)
+        if author:
+            question.author = author
+            question.save()
+        return question
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:

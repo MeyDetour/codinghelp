@@ -28,10 +28,8 @@ def create_question(request):
     if not request.data.get('contentHTML'):
             return Response({'message': "No contentHTML send"},406)
 
-    existingQuestion = Question.objects.filter(title__iexact=request.data.get('title'))
-    print(existingQuestion)
-    if existingQuestion.exists():
-        return Response({"message": "Question with this title already exist"}, 409)
+    if Question.objects.filter(title__iexact=request.data.get('title')).exists():
+        return Response({"message": "Question with this title already exists"}, status=409)
 
     theme_ids = request.data.get('themes', [])
     if not isinstance(theme_ids, list) or not theme_ids:
@@ -44,7 +42,7 @@ def create_question(request):
 
     data = request.data.copy()
     #auto add author
-    data['author'] = user.id
+    data['author'] = user
 
     serializer = QuestionDetailsSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
