@@ -43,11 +43,10 @@ def create_question(request):
 
 
     data = request.data.copy()
-    return Response(data)
     #auto add author
     data['author'] = user.id
 
-    serializer = QuestionSerializer(data=data, partial=True)
+    serializer = QuestionDetailsSerializer(data=data, partial=True)
     serializer.is_valid(raise_exception=True)
     question = serializer.save()
     return Response(QuestionDetailsSerializer(question).data)
