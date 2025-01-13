@@ -77,7 +77,7 @@ def get_question(request, id):
     if question.author == None:
         question.delete()
 
-        return Response({"message": "Question deleted"},400)
+        return Response({"message": "No author of question"},400)
 
     if request.method == 'GET':
         return Response(QuestionDetailsSerializer(question).data)
