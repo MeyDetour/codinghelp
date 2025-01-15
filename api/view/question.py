@@ -28,7 +28,9 @@ def create_question(request):
     if not request.data.get('contentHTML'):
             return Response({'message': "No contentHTML send"},406)
 
-    if Question.objects.filter(title__iexact=request.data.get('title')).exists():
+    title = request.data.get('title')
+    question_xist =Question.objects.filter(title=title).exists()
+    if question_xist:
         return Response({"message": "Question with this title already exists"}, status=409)
 
     theme_ids = request.data.get('themes', [])

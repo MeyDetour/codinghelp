@@ -86,11 +86,11 @@ def create_user(request):
     if not username :
         return Response({'message': "No username send"},406)
 
-    userExist = User.objects.filter(email=email).exists()
-    userExist2 = User.objects.filter(username=username).exists()
-    if userExist:
+    user_exist = User.objects.filter(email=email).exists()
+    user_exist2 = User.objects.filter(username=username).exists()
+    if user_exist:
         return Response({'message': "User with this email already exists"}, 409)
-    if userExist2:
+    if user_exist2:
             return Response({'message': "User with this username already exists"}, 409)
 
     if not request.data.get('password'):
