@@ -63,7 +63,7 @@ def delete_response(request, id):
     response = get_object_or_404(ResponseText, pk=id)
     if response.author == None:
         response.delete()
-        return Response({"message": "Response deleted"},400)
+        return Response({"message": "Response deleted"},200)
 
     # if request.method == "PUT":
     #     if response.author.id != user.id:
