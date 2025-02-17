@@ -8,6 +8,7 @@ def get_question_routes():
             "needToken": True,
             "bodyJson": {"title": "string (NOT NULL)",
                 "content": "string (NOT NULL)",
+                "contentHTML": "string (NOT NULL)",
                 "themes": ["int (NOT NULL)"]
             },
             "responseJson": {

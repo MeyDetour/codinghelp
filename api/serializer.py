@@ -12,13 +12,13 @@ representation_of_time="%d.%m.%Y"
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    themes = serializers.PrimaryKeyRelatedField(many=True, queryset=Theme.objects.all())  # Utiliser les IDs des thèmes
-    responses_count = serializers.SerializerMethodField()
+     responses_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     contributor_count = serializers.SerializerMethodField()
     class Meta:
         model = Question
-        fields = ['id','created_at', "title",'author','themes','isValidate','responses_count','contributor_count']
+        fields = ['id','created_at','themes', "title",'author','isValidate','responses_count','contributor_count']
+
 
     def get_contributor_count(self, obj):
          # get all authors of responsens
@@ -26,6 +26,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         return len(answerers)+1
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        data['themes'] = [{"id": theme.id, "name": theme.name} for theme in instance.themes.all()]
+
         data['isValidate'] = data['isValidate'] if data['isValidate'] is not None else False
         return data
     def get_responses_count(self, obj):
