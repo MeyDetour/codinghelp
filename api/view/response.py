@@ -25,6 +25,9 @@ def create_response(request):
     if not request.data.get('content'):
         return Response({'message': "No content send"},406)
 
+    if not request.data.get('contentHTML'):
+        return Response({'message': "No contentHTML send"},406)
+
     question_id = request.data.get('question')
 
     if not request.data.get('question'):

@@ -68,6 +68,7 @@ class Question(models.Model):
 #Appelé responseText plutot que Response car elle entre en conflit avec la classe de DRF
 class ResponseText(models.Model):
     content = models.TextField()
+    contentHTML = models.TextField()
     question = models.ForeignKey(Question,on_delete=models.CASCADE,null=False,related_name="responses")
     author = models.ForeignKey(User,on_delete=models.CASCADE,null=True,related_name="responses")
     created_at = models.DateTimeField(auto_now_add=True)
