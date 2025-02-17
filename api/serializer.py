@@ -92,7 +92,7 @@ class ResponseSerializer(serializers.ModelSerializer):
     question_data = serializers.SerializerMethodField()
     class Meta:
         model = ResponseText
-        fields = ['id','created_at', 'content', 'author', 'author_data', 'upvote_count','downvote_count',"question","question_data"]
+        fields = ['id','created_at', 'content', 'contentHTML','author', 'author_data', 'upvote_count','downvote_count',"question","question_data"]
 
     def get_upvote_count(self, obj):
         return obj.votes.filter(type="upvote").count()
