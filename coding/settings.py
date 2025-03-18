@@ -48,7 +48,7 @@ SECRET_KEY = 'django-insecure-v1xzvc39+_xet#f4ke)+eox5t!1egb!2+z($1+hi*4$o3ym$jv
 DEBUG = True
 CORS_ALLOW_ALL_ORIGINS = True
 
-ALLOWED_HOSTS = ["codinghelp.md-genos.com"]
+ALLOWED_HOSTS = ["codinghelp.meydetour.com"]
 
 # Application definition
 
@@ -71,7 +71,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
-
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -156,7 +155,21 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS =  [os.path.join(BASE_DIR, 'static') ]
+MEDIA_URL = '/images/'
+STATIC_URL = '/api/static/'
+STATICFILES_DIRS =  [
+    os.path.join(BASE_DIR, 'api/static/api')
+
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 AUTH_USER_MODEL = 'api.User'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.eu'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'app@meydetour.com'
+EMAIL_HOST_PASSWORD = '1gparGqc*2sEK&j'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
