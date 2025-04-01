@@ -101,8 +101,7 @@ def get_question(request, id):
         if question.author.id != user.id and not user.is_superuser:
             return Response({"message": "You can't delete this"}, status=403)
 
-        if question.responses.exists():
-            return Response({"message": "You can't delete this there are many responses"}, status=403)
-
+        for response in question.responses :
+            response.delete()
         question.delete()
         return Response({'message': "ok"})
